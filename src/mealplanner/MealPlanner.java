@@ -150,9 +150,9 @@ class MealPlanner implements Serializable {
         }
 
         /**
-         *
-         * @return
-         * TODO calculate total Calories using Days total calories
+         * Calculates the amount of Calories in a plan by adding the total calories of each day in the plan.
+         * @return the summed total of Calories
+         * @see Days#getTotalCalories()
          */
         public int getTotalCalories() {
             int calCount = 0;

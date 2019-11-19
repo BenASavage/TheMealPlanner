@@ -11,6 +11,9 @@ public enum Days {
 
     private ArrayList<Meal> meals;
 
+    /**
+     * The sum total of the Calories in each meal in the day's meals.
+     */
     private int totalCalories;
 
     Days() {
