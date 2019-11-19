@@ -1,0 +1,38 @@
+
+../.idea/$CACHE_FILE$
+../.idea/$PRODUCT_WORKSPACE_FILE$
+*.xml
+*.iml
+out/production/Meal Planner/com/intellij/uiDesigner/core/AbstractLayout.class
+out/production/Meal Planner/com/intellij/uiDesigner/core/DimensionInfo.class
+out/production/Meal Planner/com/intellij/uiDesigner/core/GridConstraints.class
+out/production/Meal Planner/com/intellij/uiDesigner/core/GridLayoutManager.class
+out/production/Meal Planner/com/intellij/uiDesigner/core/HorizontalInfo.class
+out/production/Meal Planner/com/intellij/uiDesigner/core/LayoutState.class
+out/production/Meal Planner/com/intellij/uiDesigner/core/Spacer.class
+out/production/Meal Planner/com/intellij/uiDesigner/core/SupportCode$TextWithMnemonic.class
+out/production/Meal Planner/com/intellij/uiDesigner/core/SupportCode.class
+out/production/Meal Planner/com/intellij/uiDesigner/core/Util.class
+out/production/Meal Planner/com/intellij/uiDesigner/core/VerticalInfo.class
+out/production/Meal Planner/diagram.uml
+out/production/Meal Planner/mealplanner/Days.class
+out/production/Meal Planner/mealplanner/Meal$BLD.class
+out/production/Meal Planner/mealplanner/Meal.class
+out/production/Meal Planner/mealplanner/MealPlanner$MealPlan.class
+out/production/Meal Planner/mealplanner/MealPlanner.class
+out/production/Meal Planner/mealplanner/MealPlannerGui.class
+out/production/Meal Planner/META-INF/Meal Planner.kotlin_module
+out/test/Meal Planner/com/intellij/uiDesigner/core/AbstractLayout.class
+out/test/Meal Planner/com/intellij/uiDesigner/core/DimensionInfo.class
+out/test/Meal Planner/com/intellij/uiDesigner/core/GridConstraints.class
+out/test/Meal Planner/com/intellij/uiDesigner/core/GridLayoutManager.class
+out/test/Meal Planner/com/intellij/uiDesigner/core/HorizontalInfo.class
+out/test/Meal Planner/com/intellij/uiDesigner/core/LayoutState.class
+out/test/Meal Planner/com/intellij/uiDesigner/core/Spacer.class
+out/test/Meal Planner/com/intellij/uiDesigner/core/SupportCode$TextWithMnemonic.class
+out/test/Meal Planner/com/intellij/uiDesigner/core/SupportCode.class
+out/test/Meal Planner/com/intellij/uiDesigner/core/Util.class
+out/test/Meal Planner/com/intellij/uiDesigner/core/VerticalInfo.class
+out/test/Meal Planner/mealplanner/MealPlannerTest.class
+src/mealplanner/MealPlannerGui.form
+src/mealplanner/MealPlannerGui.form
