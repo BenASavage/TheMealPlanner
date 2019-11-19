@@ -2,7 +2,6 @@
 ../.idea/$CACHE_FILE$
 ../.idea/$PRODUCT_WORKSPACE_FILE$
 *.xml
-*.iml
 out/production/Meal Planner/com/intellij/uiDesigner/core/AbstractLayout.class
 out/production/Meal Planner/com/intellij/uiDesigner/core/DimensionInfo.class
 out/production/Meal Planner/com/intellij/uiDesigner/core/GridConstraints.class
@@ -34,5 +33,4 @@ out/test/Meal Planner/com/intellij/uiDesigner/core/SupportCode.class
 out/test/Meal Planner/com/intellij/uiDesigner/core/Util.class
 out/test/Meal Planner/com/intellij/uiDesigner/core/VerticalInfo.class
 out/test/Meal Planner/mealplanner/MealPlannerTest.class
-src/mealplanner/MealPlannerGui.form
 src/mealplanner/MealPlannerGui.form
