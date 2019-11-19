@@ -10,7 +10,6 @@ package mealplanner;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
 
 /**
  * MealPlanner handles the backend logic for MealPlannerGui. In abstract terms, a Meal Planner allows the user to create
