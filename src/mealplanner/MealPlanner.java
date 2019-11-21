@@ -7,9 +7,11 @@
 
 package mealplanner;
 
+import javax.swing.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * MealPlanner handles the backend logic for MealPlannerGui. In abstract terms, a Meal Planner allows the user to create
@@ -54,6 +56,16 @@ class MealPlanner implements Serializable {
      */
     private ArrayList<Meal> createMealList() {
         ArrayList<Meal> meals = new ArrayList<>(35);
+        try (Scanner scan = new Scanner("Data/MealList.csv")) {
+            while (scan.hasNextLine()) {
+                String[] lineValues = scan.nextLine().split(",");
+                meals.add(new Meal(lineValues[0], new ImageIcon("images/BLD/" + lineValues[2]
+                        + lineValues[0] + (lineValues[2].equals("Dinner") ? ".jpeg" : ".jpg")),
+                        Integer.parseInt(lineValues[1]), Meal.BLD.valueOf(lineValues[2])));
+            }
+        } catch (Exception e) {
+            System.err.println("There was a problem creating the meal list");
+        }
         return meals;
     }
 

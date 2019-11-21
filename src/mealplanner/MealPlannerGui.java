@@ -15,7 +15,6 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 
-
 public class MealPlannerGui {
     private static MealPlanner planner = deserialize();
     private static ArrayList<Meal> mealList = planner.getMealList();
