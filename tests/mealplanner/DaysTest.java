@@ -1,7 +1,6 @@
 package mealplanner;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
 
 import javax.swing.*;
 

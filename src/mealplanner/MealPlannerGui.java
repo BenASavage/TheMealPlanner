@@ -12,6 +12,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -29,13 +31,15 @@ public class MealPlannerGui {
 
     /**
      * Saves the user's account including all their plans to "planner.ser". That file is deserialized every time the
-     * program
+     * program is run, allowing the user to save progress. This method is called every time the program is closed.
      */
     private static void serialize() {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("planner.ser"))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Data/" +
+                planner.getName() + "planner.ser"))) {
             out.writeObject(planner);
         } catch (IOException e) {
             //Display message that says there was a problem saving the data
+            JOptionPane.showMessageDialog(frame, "There was a problem saving your data");
         }
     }
 
@@ -46,17 +50,56 @@ public class MealPlannerGui {
      * TODO name could be based on the user provided name for the MealPlanner. Opens possibility for multiple users.
      */
     private static MealPlanner deserialize() {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("planner.ser"))) {
-            return (MealPlanner) in.readObject();
+        String name = JOptionPane.showInputDialog(frame,"Welcome to The Meal Planner! Enter your name:");
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Data/" + name + "planner.ser"))) {
+            MealPlanner planner = (MealPlanner) in.readObject();
+            JOptionPane.showMessageDialog(frame,"Welcome Back " + planner.getName() + "!");
+            return planner;
         } catch (IOException | ClassNotFoundException e) {
-            //Should display a message explaining to the user that no data was found
             //This block will run the first time the user uses the program
-            return new MealPlanner("Temp");
+            return new MealPlanner(name);
         }
     }
+
     private static void MainMenu() {
         frame.setBounds(100, 100, 900, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                serialize();
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
 
         JLabel lbltheMealPlanner = new JLabel("\"THE\" Meal Planner");
         lbltheMealPlanner.setFont(new Font("Javanese Text", Font.BOLD, 25));
@@ -82,8 +125,6 @@ public class MealPlannerGui {
         });
         btnViewPlans.setFont(new Font("Javanese Text", Font.BOLD, 20));
         panel.add(btnViewPlans);
-
-
     }
 
     private static void plansGUI() {
@@ -118,12 +159,32 @@ public class MealPlannerGui {
             @Override
             public void actionPerformed(ActionEvent e) {
                 planner.addToCurrentPlans(new MealPlanner.MealPlan());
+                //displayCurrentPlans();
             }
         });
 
         JButton Deletebtn = new JButton("Delete a Plan");
         Deletebtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
         btnpanel.add(Deletebtn);
+        Deletebtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String plan = JOptionPane.showInputDialog("Enter the name of the Plan you would like to remove");
+                boolean inPlans = false;
+                for (MealPlanner.MealPlan el : planner.getCurrentPlans()) {
+                    if (el.getPlanName().equals(plan)) {
+                        planner.removeFromCurrentPlans(el);
+                        inPlans = true;
+                        break;
+                    }
+                }
+                if (!inPlans) {
+                    JOptionPane.showMessageDialog(frame, plan + " plan could not be removed");
+                }
+
+                //displayCurrentPlans();
+            }
+        });
 
         JPanel planlistpanel = new JPanel();
         contentPane.add(planlistpanel, BorderLayout.CENTER);
