@@ -22,4 +22,9 @@ class MealPlannerTest {
         tester.removeFromCurrentPlans(testPlan);
         assertEquals(0, tester.getCurrentPlans().size());
     }
+
+    @Test
+    void createMealList() {
+        //assertEquals();
+    }
 }
