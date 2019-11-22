@@ -65,7 +65,7 @@ class MealPlanner implements Serializable {
                             + lineValues[0] + (lineValues[2].equals("Dinner") ? ".jpeg" : ".jpg")),
                             Integer.parseInt(lineValues[1]), Meal.BLD.valueOf(lineValues[2])));
                 } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                    System.err.println("Something was caught inside of the while");
+
                 }
             }
         } catch (Exception e) {

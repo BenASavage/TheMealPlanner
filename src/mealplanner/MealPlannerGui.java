@@ -108,7 +108,7 @@ public class MealPlannerGui {
 
         JLabel lblTurkey = new JLabel("");
         lblTurkey.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTurkey.setIcon(new ImageIcon("src/images/Turkey.jpg"));
+        lblTurkey.setIcon(new ImageIcon("images/Turkey.jpg"));
         frame.getContentPane().add(lblTurkey, BorderLayout.CENTER);
 
         JPanel panel = new JPanel();
