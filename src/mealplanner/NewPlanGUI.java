@@ -17,18 +17,15 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
-import java.awt.Dimension;
-import java.awt.Component;
 import java.awt.GridLayout;
 import javax.swing.JScrollBar;
 import javax.swing.JCheckBox;
-import javax.swing.ImageIcon;
 import java.awt.Rectangle;
 import java.awt.Color;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.AdjustmentEvent;
 
-public class NewPlan extends JFrame {
+public class NewPlanGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -40,7 +37,7 @@ public class NewPlan extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					NewPlan frame = new NewPlan();
+					NewPlanGUI frame = new NewPlanGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,7 +49,7 @@ public class NewPlan extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public NewPlan() {
+	public NewPlanGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 2000);
 		contentPane = new JPanel();

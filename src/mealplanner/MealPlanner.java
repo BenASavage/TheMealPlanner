@@ -69,7 +69,7 @@ class MealPlanner implements Serializable {
                 }
             }
         } catch (Exception e) {
-            //System.err.println("There was a problem creating the meal list");
+            System.err.println("There was a problem creating the meal list");
         }
         return meals;
     }

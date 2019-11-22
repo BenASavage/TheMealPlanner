@@ -21,7 +21,7 @@ import javax.swing.JButton;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.AdjustmentEvent;
 
-public class CurrentPlans extends JFrame {
+public class CurrentPlansGUI extends JFrame {
 
 	private JPanel contentPane;
 
@@ -32,7 +32,7 @@ public class CurrentPlans extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CurrentPlans frame = new CurrentPlans();
+					CurrentPlansGUI frame = new CurrentPlansGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,7 +44,7 @@ public class CurrentPlans extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CurrentPlans() {
+	public CurrentPlansGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 2500);
 		contentPane = new JPanel();

@@ -15,14 +15,11 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-import java.awt.Dimension;
 import javax.swing.JPanel;
-import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
-import javax.swing.Action;
 import java.awt.event.ActionListener;
 
-public class MainMenu {
+public class MainMenuGUI {
 
 	private JFrame frame;
 
@@ -33,7 +30,7 @@ public class MainMenu {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainMenu window = new MainMenu();
+					MainMenuGUI window = new MainMenuGUI();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +42,7 @@ public class MainMenu {
 	/**
 	 * Create the application.
 	 */
-	public MainMenu() {
+	public MainMenuGUI() {
 		initialize();
 	}
 
@@ -64,7 +61,7 @@ public class MainMenu {
 		
 		JLabel lblTurkey = new JLabel("");
 		lblTurkey.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTurkey.setIcon(new ImageIcon(MainMenu.class.getResource("/images/Turkey.jpg")));
+		lblTurkey.setIcon(new ImageIcon(MainMenuGUI.class.getResource("/images/Turkey.jpg")));
 		frame.getContentPane().add(lblTurkey, BorderLayout.CENTER);
 			
 		JPanel panel = new JPanel();

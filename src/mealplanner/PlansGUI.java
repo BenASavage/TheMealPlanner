@@ -19,7 +19,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Plans extends JFrame {
+public class PlansGUI extends JFrame {
 
 	private JPanel contentPane;
 
@@ -30,7 +30,7 @@ public class Plans extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Plans frame = new Plans();
+					PlansGUI frame = new PlansGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,7 +42,7 @@ public class Plans extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Plans() {
+	public PlansGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 600);
 		contentPane = new JPanel();
@@ -69,6 +69,12 @@ public class Plans extends JFrame {
 		JButton Addbtn = new JButton("Add a new Plan");
 		Addbtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
 		btnpanel.add(Addbtn);
+		Addbtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				planner.addToCurrentPlans(new MealPlanner.MealPlan());
+			}
+		});
 		
 		JButton Deletebtn = new JButton("Delete a Plan");
 		Deletebtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
