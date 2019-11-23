@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 public class MealPlannerGui {
     private static MealPlanner planner = deserialize();
-    private static ArrayList<Meal> mealList = planner.getMealList();
     private static JFrame frame = new JFrame();
     private static JPanel contentPane = new JPanel();
 
@@ -30,8 +29,9 @@ public class MealPlannerGui {
     }
 
     /**
-     * Saves the user's account including all their plans to "planner.ser". That file is deserialized every time the
-     * program is run, allowing the user to save progress. This method is called every time the program is closed.
+     * Saves the user's account including all their plans to their name + "planner.ser".
+     * That file is deserialized every time the program is run, allowing the user to save progress.
+     * This method is called every time the program is closed.
      */
     private static void serialize() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Data/" +
@@ -44,10 +44,8 @@ public class MealPlannerGui {
     }
 
     /**
-     *
+     * Takes user input to deserialize a previous account, if no account matches the provided name it creates a new one
      * @return the previously saved account or a new one if none are found.
-     * TODO make this not bare bones. Create new MealPlanner if none are found. User input for the name. File
-     * TODO name could be based on the user provided name for the MealPlanner. Opens possibility for multiple users.
      */
     private static MealPlanner deserialize() {
         String name = JOptionPane.showInputDialog(frame,"Welcome to The Meal Planner! Enter your name:");
@@ -169,7 +167,7 @@ public class MealPlannerGui {
         Deletebtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String plan = JOptionPane.showInputDialog("Enter the name of the Plan you would like to remove");
+                String plan = JOptionPane.showInputDialog(frame,"Enter the name of the Plan you would like to remove");
                 boolean inPlans = false;
                 for (MealPlanner.MealPlan el : planner.getCurrentPlans()) {
                     if (el.getPlanName().equals(plan)) {
@@ -187,10 +185,11 @@ public class MealPlannerGui {
         });
 
         JPanel planlistpanel = new JPanel();
+        //displayCurrentPlans();
+
         contentPane.add(planlistpanel, BorderLayout.CENTER);
         planlistpanel.setLayout(new BorderLayout(0, 0));
-
-        JLabel lblNoCurrentPlans = new JLabel("No Current Plans Listed");
+        JLabel lblNoCurrentPlans = new JLabel("No Current Plans");
         lblNoCurrentPlans.setFont(new Font("Javanese Text", Font.BOLD | Font.ITALIC, 24));
         lblNoCurrentPlans.setHorizontalAlignment(SwingConstants.CENTER);
         planlistpanel.add(lblNoCurrentPlans, BorderLayout.NORTH);
@@ -323,11 +322,16 @@ public class MealPlannerGui {
 
         JButton Viewbtn = new JButton("View Other Plans");
         Viewbtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
+        Viewbtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                contentPane.removeAll();
+                contentPane.revalidate();
+                contentPane.repaint();
+                plansGUI();
+            }
+        });
         btnpanel.add(Viewbtn);
-
-        JButton Addtobtn = new JButton("Add to this Plan");
-        Addtobtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        btnpanel.add(Addtobtn);
 
         JButton Resetbtn = new JButton("Reset this Plan");
         Resetbtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
