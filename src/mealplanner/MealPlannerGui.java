@@ -15,12 +15,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.*;
-import java.util.ArrayList;
 
 public class MealPlannerGui {
     private static MealPlanner planner = deserialize();
     private static JFrame frame = new JFrame();
     private static JPanel contentPane = new JPanel();
+    private static JPanel planlistpanel = new JPanel();
+    private static JLabel lblPlans = new JLabel();
 
 
     public static void main(String[] args) {
@@ -49,6 +50,9 @@ public class MealPlannerGui {
      */
     private static MealPlanner deserialize() {
         String name = JOptionPane.showInputDialog(frame,"Welcome to The Meal Planner! Enter your name:");
+        if (name == null || name.isEmpty() || name.isBlank()) {
+            System.exit(0);
+        }
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Data/" + name + "planner.ser"))) {
             MealPlanner planner = (MealPlanner) in.readObject();
             JOptionPane.showMessageDialog(frame,"Welcome Back " + planner.getName() + "!");
@@ -61,6 +65,7 @@ public class MealPlannerGui {
 
     private static void MainMenu() {
         frame.setBounds(100, 100, 900, 600);
+        frame.setTitle(planner.getName());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addWindowListener(new WindowListener() {
             @Override
@@ -104,7 +109,7 @@ public class MealPlannerGui {
         lbltheMealPlanner.setHorizontalAlignment(SwingConstants.CENTER);
         frame.getContentPane().add(lbltheMealPlanner, BorderLayout.NORTH);
 
-        JLabel lblTurkey = new JLabel("");
+        JLabel lblTurkey = new JLabel();
         lblTurkey.setHorizontalAlignment(SwingConstants.CENTER);
         lblTurkey.setIcon(new ImageIcon("images/Turkey.jpg"));
         frame.getContentPane().add(lblTurkey, BorderLayout.CENTER);
@@ -130,7 +135,6 @@ public class MealPlannerGui {
         frame.setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 0));
 
-        JLabel lblPlans = new JLabel("Plans");
         lblPlans.setHorizontalAlignment(SwingConstants.CENTER);
         lblPlans.setFont(new Font("Javanese Text", Font.BOLD, 24));
         contentPane.add(lblPlans, BorderLayout.NORTH);
@@ -144,7 +148,6 @@ public class MealPlannerGui {
             public void actionPerformed(ActionEvent e) {
                 frame.getContentPane().removeAll();
                 frame.getContentPane().revalidate();
-                frame.repaint();
                 MainMenu();
             }
         });
@@ -157,46 +160,60 @@ public class MealPlannerGui {
             @Override
             public void actionPerformed(ActionEvent e) {
                 planner.addToCurrentPlans(new MealPlanner.MealPlan());
-                //displayCurrentPlans();
+                displayCurrentPlans();
             }
         });
 
         JButton Deletebtn = new JButton("Delete a Plan");
         Deletebtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
         btnpanel.add(Deletebtn);
-        Deletebtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String plan = JOptionPane.showInputDialog(frame,"Enter the name of the Plan you would like to remove");
-                boolean inPlans = false;
-                for (MealPlanner.MealPlan el : planner.getCurrentPlans()) {
-                    if (el.getPlanName().equals(plan)) {
-                        planner.removeFromCurrentPlans(el);
-                        inPlans = true;
-                        break;
-                    }
+        Deletebtn.addActionListener(e -> {
+            String plan = JOptionPane.showInputDialog(frame,"Enter the name of the Plan you would like to remove");
+            boolean inPlans = false;
+            for (MealPlanner.MealPlan el : planner.getCurrentPlans()) {
+                if (el.getPlanName().equals(plan)) {
+                    planner.removeFromCurrentPlans(el);
+                    inPlans = true;
+                    break;
                 }
-                if (!inPlans) {
-                    JOptionPane.showMessageDialog(frame, plan + " plan could not be removed");
-                }
-
-                //displayCurrentPlans();
             }
+            if (!inPlans) {
+                JOptionPane.showMessageDialog(frame, plan + " plan could not be removed");
+            }
+
+            displayCurrentPlans();
         });
 
-        JPanel planlistpanel = new JPanel();
-        //displayCurrentPlans();
-
+        displayCurrentPlans();
         contentPane.add(planlistpanel, BorderLayout.CENTER);
-        planlistpanel.setLayout(new BorderLayout(0, 0));
-        JLabel lblNoCurrentPlans = new JLabel("No Current Plans");
-        lblNoCurrentPlans.setFont(new Font("Javanese Text", Font.BOLD | Font.ITALIC, 24));
-        lblNoCurrentPlans.setHorizontalAlignment(SwingConstants.CENTER);
-        planlistpanel.add(lblNoCurrentPlans, BorderLayout.NORTH);
+        planlistpanel.setLayout(new BoxLayout(planlistpanel,BoxLayout.Y_AXIS));
+
     }
 
-    private static void currentPlansGUI() {
-        JLabel lblCurrentPlan = new JLabel("Current Plan");
+    private static void displayCurrentPlans() {
+        if (planner.getCurrentPlans().isEmpty()) {
+            lblPlans.setText("No Plans Available");
+        }
+        else {
+            lblPlans.setText("Current Plans");
+        }
+
+        planlistpanel.removeAll();
+        for (MealPlanner.MealPlan el : planner.getCurrentPlans()) {
+            JButton planButton = new JButton(el.getPlanName() + " Calories: " + el.getTotalCalories());
+            planButton.addActionListener(e -> {
+                contentPane.removeAll();
+                contentPane.revalidate();
+                mealPlanGUI(el);
+            });
+            planlistpanel.add(planButton);
+        }
+        planlistpanel.revalidate();
+        planlistpanel.repaint();
+    }
+
+    private static void mealPlanGUI(MealPlanner.MealPlan plan) {
+        JLabel lblCurrentPlan = new JLabel(plan.getPlanName());
         lblCurrentPlan.setHorizontalAlignment(SwingConstants.CENTER);
         lblCurrentPlan.setFont(new Font("Javanese Text", Font.BOLD, 24));
         contentPane.add(lblCurrentPlan, BorderLayout.NORTH);
@@ -205,117 +222,28 @@ public class MealPlannerGui {
         contentPane.add(panel, BorderLayout.CENTER);
         panel.setLayout(new GridLayout(3, 2, 0, 0));
 
-        JPanel panel_1 = new JPanel();
-        panel.add(panel_1);
-        panel_1.setLayout(new BorderLayout(0, 0));
+        for (Days el : plan.getWeekPlan()) {
+            JPanel dayPanel = new JPanel();
+            panel.add(dayPanel);
+            dayPanel.setLayout(new BorderLayout(0, 0));
 
-        JLabel lblSunday = new JLabel("Sunday");
-        lblSunday.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        panel_1.add(lblSunday, BorderLayout.NORTH);
+            JLabel lblDay = new JLabel(el.toString());
+            lblDay.setFont(new Font("Javanese Text", Font.PLAIN, 17));
+            dayPanel.add(lblDay, BorderLayout.NORTH);
 
-        JPanel panel_9 = new JPanel();
-        panel_1.add(panel_9, BorderLayout.SOUTH);
-        panel_9.setLayout(new GridLayout(0, 5, 0, 0));
+            JPanel mealPanel = new JPanel();
+            dayPanel.add(mealPanel, BorderLayout.SOUTH);
+            mealPanel.setLayout(new BoxLayout(mealPanel, BoxLayout.Y_AXIS));
 
-        JButton btnAddToThis = new JButton("Add to this day");
-        btnAddToThis.setFont(new Font("Javanese Text", Font.PLAIN, 13));
-        panel_9.add(btnAddToThis);
-
-        JPanel panel_2 = new JPanel();
-        panel.add(panel_2);
-        panel_2.setLayout(new BorderLayout(0, 0));
-
-        JLabel lblMonday = new JLabel("Monday");
-        lblMonday.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        panel_2.add(lblMonday, BorderLayout.NORTH);
-
-        JPanel panel_8 = new JPanel();
-        panel_2.add(panel_8, BorderLayout.SOUTH);
-        panel_8.setLayout(new GridLayout(0, 5, 0, 0));
-
-        JButton btnAddToThis_1 = new JButton("Add to this day");
-        btnAddToThis_1.setFont(new Font("Javanese Text", Font.PLAIN, 13));
-        panel_8.add(btnAddToThis_1);
-
-        JPanel panel_3 = new JPanel();
-        panel.add(panel_3);
-        panel_3.setLayout(new BorderLayout(0, 0));
-
-        JLabel lblTuesday = new JLabel("Tuesday");
-        lblTuesday.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        panel_3.add(lblTuesday, BorderLayout.NORTH);
-
-        JPanel panel_10 = new JPanel();
-        panel_3.add(panel_10, BorderLayout.SOUTH);
-        panel_10.setLayout(new GridLayout(0, 5, 0, 0));
-
-        JButton btnAddToThis_2 = new JButton("Add to this day");
-        btnAddToThis_2.setFont(new Font("Javanese Text", Font.PLAIN, 13));
-        panel_10.add(btnAddToThis_2);
-
-        JPanel panel_4 = new JPanel();
-        panel.add(panel_4);
-        panel_4.setLayout(new BorderLayout(0, 0));
-
-        JLabel lblWednesday = new JLabel("Wednesday");
-        lblWednesday.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        panel_4.add(lblWednesday, BorderLayout.NORTH);
-
-        JPanel panel_11 = new JPanel();
-        panel_4.add(panel_11, BorderLayout.SOUTH);
-        panel_11.setLayout(new GridLayout(0, 5, 0, 0));
-
-        JButton btnAddToThis_3 = new JButton("Add to this day");
-        btnAddToThis_3.setFont(new Font("Javanese Text", Font.PLAIN, 13));
-        panel_11.add(btnAddToThis_3);
-
-        JPanel panel_5 = new JPanel();
-        panel.add(panel_5);
-        panel_5.setLayout(new BorderLayout(0, 0));
-
-        JLabel lblThursday = new JLabel("Thursday");
-        lblThursday.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        panel_5.add(lblThursday, BorderLayout.NORTH);
-
-        JPanel panel_12 = new JPanel();
-        panel_5.add(panel_12, BorderLayout.SOUTH);
-        panel_12.setLayout(new GridLayout(0, 5, 0, 0));
-
-        JButton btnAddToThis_4 = new JButton("Add to this day");
-        btnAddToThis_4.setFont(new Font("Javanese Text", Font.PLAIN, 13));
-        panel_12.add(btnAddToThis_4);
-
-        JPanel panel_6 = new JPanel();
-        panel.add(panel_6);
-        panel_6.setLayout(new BorderLayout(0, 0));
-
-        JLabel lblFriday = new JLabel("Friday");
-        lblFriday.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        panel_6.add(lblFriday, BorderLayout.NORTH);
-
-        JPanel panel_13 = new JPanel();
-        panel_6.add(panel_13, BorderLayout.SOUTH);
-        panel_13.setLayout(new GridLayout(0, 5, 0, 0));
-
-        JButton btnAddToThis_5 = new JButton("Add to this day");
-        btnAddToThis_5.setFont(new Font("Javanese Text", Font.PLAIN, 13));
-        panel_13.add(btnAddToThis_5);
-
-        JPanel panel_7 = new JPanel();
-        panel.add(panel_7);
-        panel_7.setLayout(new BorderLayout(0, 0));
-
-        JLabel lblSaturday = new JLabel("Saturday");
-        lblSaturday.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        panel_7.add(lblSaturday, BorderLayout.NORTH);
-
-        JPanel panel_14 = new JPanel();
-        panel_7.add(panel_14, BorderLayout.SOUTH);
-        panel_14.setLayout(new GridLayout(0, 5, 0, 0));
-
-        JButton btnAddToThis_6 = new JButton("Add to this day");
-        btnAddToThis_6.setFont(new Font("Javanese Text", Font.PLAIN, 13));
-        panel_14.add(btnAddToThis_6);
+            JButton btnAddToThis = new JButton("Add to this day");
+            btnAddToThis.setFont(new Font("Javanese Text", Font.PLAIN, 13));
+            btnAddToThis.addActionListener(e -> {
+                contentPane.removeAll();
+                contentPane.revalidate();
+                mealListGUI(plan, el);
+            });
+            mealPanel.add(btnAddToThis);
+        }
 
         JPanel btnpanel = new JPanel();
         contentPane.add(btnpanel, BorderLayout.SOUTH);
@@ -338,7 +266,7 @@ public class MealPlannerGui {
         btnpanel.add(Resetbtn);
     }
 
-    private static void MealList() {
+    private static void mealListGUI(MealPlanner.MealPlan plan, Days thisDay) {
         JPanel panel = new JPanel();
         contentPane.add(panel, BorderLayout.SOUTH);
 
@@ -358,191 +286,52 @@ public class MealPlannerGui {
         JButton Resetbtn = new JButton("Reset");
         Resetbtn.setFont(new Font("Javanese Text", Font.BOLD, 17));
         panel.add(Resetbtn);
+        Resetbtn.addActionListener(e -> {
+            contentPane.removeAll();
+            contentPane.revalidate();
+            mealListGUI(plan, thisDay);
+        });
 
         JButton Cancelbtn = new JButton("Cancel");
         Cancelbtn.setFont(new Font("Javanese Text", Font.BOLD, 17));
         panel.add(Cancelbtn);
+        Cancelbtn.addActionListener(e -> {
+            contentPane.removeAll();
+            contentPane.revalidate();
+            mealPlanGUI(plan);
+        });
 
-        JLabel lblNewPlan = new JLabel("New Plan");
+        JLabel lblNewPlan = new JLabel(thisDay.toString());
         lblNewPlan.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewPlan.setFont(new Font("Javanese Text", Font.BOLD, 24));
         contentPane.add(lblNewPlan, BorderLayout.NORTH);
 
         JPanel panel_1 = new JPanel();
-        contentPane.add(panel_1, BorderLayout.CENTER);
-        panel_1.setLayout(new GridLayout(5, 0, 0, 0));
+        panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 
-        JPanel Breakfastpanel = new JPanel();
-        panel_1.add(Breakfastpanel);
-        Breakfastpanel.setLayout(new BorderLayout(0, 0));
+        JScrollPane scrollPane = new JScrollPane(panel_1, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        contentPane.add(scrollPane);
 
-        JLabel lblBreakfast = new JLabel("Breakfast");
-        lblBreakfast.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        Breakfastpanel.add(lblBreakfast, BorderLayout.NORTH);
+        for (int i = 0; i < 35; i+=7) {
+            JPanel mealPanel = new JPanel();
+            panel_1.add(mealPanel);
+            mealPanel.setLayout(new BorderLayout(0, 0));
 
-        JPanel panel_2 = new JPanel();
-        panel_2.setBorder(new EmptyBorder(5, 5, 5, 5));
-        Breakfastpanel.add(panel_2, BorderLayout.WEST);
-        panel_2.setLayout(new GridLayout(7, 0, 0, 4));
+            JLabel lblType = new JLabel(Meal.BLD.values()[i/7].toString());
+            lblType.setFont(new Font("Javanese Text", Font.PLAIN, 17));
+            mealPanel.add(lblType, BorderLayout.NORTH);
 
-        JCheckBox checkBox = new JCheckBox("");
-        checkBox.setIcon(null);
-        panel_2.add(checkBox);
+            JPanel panel_2 = new JPanel();
+            panel_2.setBorder(new EmptyBorder(5, 5, 5, 5));
+            mealPanel.add(panel_2, BorderLayout.WEST);
+            panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
 
-        JCheckBox checkBox_1 = new JCheckBox("");
-        panel_2.add(checkBox_1);
-
-        JCheckBox checkBox_2 = new JCheckBox("");
-        panel_2.add(checkBox_2);
-
-        JCheckBox checkBox_3 = new JCheckBox("");
-        panel_2.add(checkBox_3);
-
-        JCheckBox checkBox_4 = new JCheckBox("");
-        panel_2.add(checkBox_4);
-
-        JCheckBox checkBox_5 = new JCheckBox("");
-        panel_2.add(checkBox_5);
-
-        JCheckBox checkBox_6 = new JCheckBox("");
-        panel_2.add(checkBox_6);
-
-        JPanel Lunchpanel = new JPanel();
-        panel_1.add(Lunchpanel);
-        Lunchpanel.setLayout(new BorderLayout(0, 0));
-
-        JLabel lblLunch = new JLabel("Lunch");
-        lblLunch.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-
-        Lunchpanel.add(lblLunch, BorderLayout.NORTH);
-
-        JPanel panel_3 = new JPanel();
-        panel_3.setBorder(new EmptyBorder(5, 5, 5, 5));
-        Lunchpanel.add(panel_3, BorderLayout.WEST);
-        panel_3.setLayout(new GridLayout(7, 1, 0, 4));
-
-        JCheckBox checkBox_7 = new JCheckBox("");
-        panel_3.add(checkBox_7);
-
-        JCheckBox checkBox_8 = new JCheckBox("");
-        panel_3.add(checkBox_8);
-
-        JCheckBox checkBox_9 = new JCheckBox("");
-        panel_3.add(checkBox_9);
-
-        JCheckBox checkBox_10 = new JCheckBox("");
-        panel_3.add(checkBox_10);
-
-        JCheckBox checkBox_11 = new JCheckBox("");
-        panel_3.add(checkBox_11);
-
-        JCheckBox checkBox_12 = new JCheckBox("");
-        panel_3.add(checkBox_12);
-
-        JCheckBox checkBox_13 = new JCheckBox("");
-        panel_3.add(checkBox_13);
-
-        JPanel Dinnerpanel = new JPanel();
-        panel_1.add(Dinnerpanel);
-        Dinnerpanel.setLayout(new BorderLayout(0, 0));
-
-        JLabel lblDinner = new JLabel("Dinner");
-        lblDinner.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        Dinnerpanel.add(lblDinner, BorderLayout.NORTH);
-
-        JPanel panel_4 = new JPanel();
-        panel_4.setBorder(new EmptyBorder(5, 5, 5, 5));
-        Dinnerpanel.add(panel_4, BorderLayout.WEST);
-        panel_4.setLayout(new GridLayout(7, 0, 0, 4));
-
-        JCheckBox checkBox_14 = new JCheckBox("");
-        panel_4.add(checkBox_14);
-
-        JCheckBox checkBox_15 = new JCheckBox("");
-        panel_4.add(checkBox_15);
-
-        JCheckBox checkBox_16 = new JCheckBox("");
-        panel_4.add(checkBox_16);
-
-        JCheckBox checkBox_17 = new JCheckBox("");
-        panel_4.add(checkBox_17);
-
-        JCheckBox checkBox_18 = new JCheckBox("");
-        panel_4.add(checkBox_18);
-
-        JCheckBox checkBox_19 = new JCheckBox("");
-        panel_4.add(checkBox_19);
-
-        JCheckBox checkBox_20 = new JCheckBox("");
-        panel_4.add(checkBox_20);
-
-        JPanel Dessertpanel = new JPanel();
-        panel_1.add(Dessertpanel);
-        Dessertpanel.setLayout(new BorderLayout(0, 0));
-
-        JLabel lblDessert = new JLabel("Dessert");
-        lblDessert.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        Dessertpanel.add(lblDessert, BorderLayout.NORTH);
-
-        JPanel panel_5 = new JPanel();
-        panel_5.setBorder(new EmptyBorder(5, 5, 5, 5));
-        Dessertpanel.add(panel_5, BorderLayout.WEST);
-        panel_5.setLayout(new GridLayout(7, 0, 0, 4));
-
-        JCheckBox checkBox_21 = new JCheckBox("");
-        panel_5.add(checkBox_21);
-
-        JCheckBox checkBox_22 = new JCheckBox("");
-        panel_5.add(checkBox_22);
-
-        JCheckBox checkBox_23 = new JCheckBox("");
-        panel_5.add(checkBox_23);
-
-        JCheckBox checkBox_24 = new JCheckBox("");
-        panel_5.add(checkBox_24);
-
-        JCheckBox checkBox_26 = new JCheckBox("");
-        panel_5.add(checkBox_26);
-
-        JCheckBox checkBox_27 = new JCheckBox("");
-        panel_5.add(checkBox_27);
-
-        JCheckBox checkBox_25 = new JCheckBox("");
-        panel_5.add(checkBox_25);
-
-        JPanel Snackpanel = new JPanel();
-        panel_1.add(Snackpanel);
-        Snackpanel.setLayout(new BorderLayout(0, 0));
-
-        JLabel lblSnack = new JLabel("Snack");
-        lblSnack.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        Snackpanel.add(lblSnack, BorderLayout.NORTH);
-
-        JPanel panel_6 = new JPanel();
-        panel_6.setBorder(new EmptyBorder(5, 5, 5, 5));
-        Snackpanel.add(panel_6, BorderLayout.WEST);
-        panel_6.setLayout(new GridLayout(7, 0, 0, 4));
-
-        JCheckBox checkBox_28 = new JCheckBox("");
-        panel_6.add(checkBox_28);
-
-        JCheckBox checkBox_29 = new JCheckBox("");
-        panel_6.add(checkBox_29);
-
-        JCheckBox checkBox_30 = new JCheckBox("");
-        panel_6.add(checkBox_30);
-
-        JCheckBox checkBox_31 = new JCheckBox("");
-        panel_6.add(checkBox_31);
-
-        JCheckBox checkBox_32 = new JCheckBox("");
-        panel_6.add(checkBox_32);
-
-        JCheckBox checkBox_33 = new JCheckBox("");
-        panel_6.add(checkBox_33);
-
-        JCheckBox checkBox_34 = new JCheckBox("");
-        panel_6.add(checkBox_34);
+            for (int j = 0; j < 7; j++) {
+                JCheckBox checkBox_1 = new JCheckBox("");
+                panel_2.add(checkBox_1);
+            }
+        }
     }
 
 }
