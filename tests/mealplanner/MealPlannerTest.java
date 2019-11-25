@@ -31,7 +31,7 @@ class MealPlannerTest {
     }
 
     @Test
-    void accessMealLists() {
+    void accessMealPlans() {
         tester.addToCurrentPlans(new MealPlanner.MealPlan());
         tester.getCurrentPlans().get(0).getWeekPlan().get(0).addMeal(
                 new Meal("name",new ImageIcon(),255, Meal.BLD.Breakfast));
