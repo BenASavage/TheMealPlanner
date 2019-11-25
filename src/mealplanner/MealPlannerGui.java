@@ -17,16 +17,17 @@ import java.awt.event.WindowListener;
 import java.io.*;
 
 public class MealPlannerGui {
-    private static MealPlanner planner = deserialize();
-    private static JFrame frame = new JFrame();
-    private static JPanel contentPane = new JPanel();
-    private static JPanel planlistpanel = new JPanel();
-    private static JLabel lblPlans = new JLabel();
+    private MealPlanner planner = deserialize();
+    private JFrame frame = new JFrame();
+    private JPanel contentPane = new JPanel();
+    private JPanel planlistpanel = new JPanel();
+    private JLabel lblPlans = new JLabel();
 
 
     public static void main(String[] args) {
-        MainMenu();
-        frame.setVisible(true);
+        MealPlannerGui runner = new MealPlannerGui();
+        runner.MainMenu();
+        runner.frame.setVisible(true);
     }
 
     /**
@@ -34,7 +35,7 @@ public class MealPlannerGui {
      * That file is deserialized every time the program is run, allowing the user to save progress.
      * This method is called every time the program is closed.
      */
-    private static void serialize() {
+    private void serialize() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Data/" +
                 planner.getName() + "planner.ser"))) {
             out.writeObject(planner);
@@ -48,7 +49,7 @@ public class MealPlannerGui {
      * Takes user input to deserialize a previous account, if no account matches the provided name it creates a new one
      * @return the previously saved account or a new one if none are found.
      */
-    private static MealPlanner deserialize() {
+    private MealPlanner deserialize() {
         String name = JOptionPane.showInputDialog(frame,"Welcome to The Meal Planner! Enter your name:");
         if (name == null || name.isEmpty() || name.isBlank()) {
             System.exit(0);
@@ -63,7 +64,7 @@ public class MealPlannerGui {
         }
     }
 
-    private static void MainMenu() {
+    private void MainMenu() {
         frame.setBounds(100, 100, 900, 600);
         frame.setTitle(planner.getName());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -130,7 +131,7 @@ public class MealPlannerGui {
         panel.add(btnViewPlans);
     }
 
-    private static void plansGUI() {
+    private void plansGUI() {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         frame.setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 0));
@@ -190,7 +191,7 @@ public class MealPlannerGui {
 
     }
 
-    private static void displayCurrentPlans() {
+    private void displayCurrentPlans() {
         if (planner.getCurrentPlans().isEmpty()) {
             lblPlans.setText("No Plans Available");
         }
@@ -212,7 +213,7 @@ public class MealPlannerGui {
         planlistpanel.repaint();
     }
 
-    private static void mealPlanGUI(MealPlanner.MealPlan plan) {
+    private void mealPlanGUI(MealPlanner.MealPlan plan) {
         JLabel lblCurrentPlan = new JLabel(plan.getPlanName());
         lblCurrentPlan.setHorizontalAlignment(SwingConstants.CENTER);
         lblCurrentPlan.setFont(new Font("Javanese Text", Font.BOLD, 24));
@@ -266,7 +267,7 @@ public class MealPlannerGui {
         btnpanel.add(Resetbtn);
     }
 
-    private static void mealListGUI(MealPlanner.MealPlan plan, Days thisDay) {
+    private void mealListGUI(MealPlanner.MealPlan plan, Days thisDay) {
         JPanel panel = new JPanel();
         contentPane.add(panel, BorderLayout.SOUTH);
 
