@@ -3,6 +3,7 @@
 ../.idea/$PRODUCT_WORKSPACE_FILE$
 *.xml
 *.ser
+*.jar
 out/production/Meal Planner/com/intellij/uiDesigner/core/AbstractLayout.class
 out/production/Meal Planner/com/intellij/uiDesigner/core/DimensionInfo.class
 out/production/Meal Planner/com/intellij/uiDesigner/core/GridConstraints.class
