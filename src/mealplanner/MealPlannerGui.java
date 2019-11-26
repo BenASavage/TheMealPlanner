@@ -267,7 +267,9 @@ public class MealPlannerGui {
                     String newName = textField.getText();
                     if (!newName.isEmpty() && !newName.isBlank()) {
                         plan.setPlanName(newName);
-                        contentPane.repaint();
+                        contentPane.removeAll();
+                        contentPane.revalidate();
+                        mealPlanGUI(plan);
                     }
                 }
             }
