@@ -144,8 +144,8 @@ public class MealPlannerGui {
         Returnbtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
         Returnbtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.getContentPane().removeAll();
-                frame.getContentPane().revalidate();
+                contentPane.removeAll();
+                contentPane.revalidate();
                 MainMenu();
             }
         });
@@ -166,19 +166,26 @@ public class MealPlannerGui {
         Deletebtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
         btnpanel.add(Deletebtn);
         Deletebtn.addActionListener(e -> {
-            String plan = JOptionPane.showInputDialog(frame,"Enter the name of the Plan you would like to remove");
+            String plan = JOptionPane.showInputDialog(frame,
+                    "Enter the name of the Plan you would like to remove");
             boolean inPlans = false;
-            for (MealPlanner.MealPlan el : planner.getCurrentPlans()) {
-                if (el.getPlanName().equals(plan)) {
-                    planner.removeFromCurrentPlans(el);
-                    inPlans = true;
-                    break;
+
+            if (plan == null || plan.isEmpty()) {
+                inPlans = true;
+            }
+            if (!inPlans) {
+                for (MealPlanner.MealPlan el : planner.getCurrentPlans()) {
+                    if (el.getPlanName().equals(plan)) {
+                        planner.removeFromCurrentPlans(el);
+                        inPlans = true;
+                        break;
+                    }
                 }
             }
+
             if (!inPlans) {
                 JOptionPane.showMessageDialog(frame, plan + " plan could not be removed");
             }
-
             displayCurrentPlans();
         });
 
@@ -207,9 +214,10 @@ public class MealPlannerGui {
                 mealPlanGUI(el);
             });
             planButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            planlistpanel.add(planButton);
+            planlistpanel.add(planButton, -1);
         }
         planlistpanel.revalidate();
+        planlistpanel.repaint();
     }
 
     private void mealPlanGUI(MealPlanner.MealPlan plan) {
@@ -236,6 +244,16 @@ public class MealPlannerGui {
             JPanel mealPanel = new JPanel();
             dayPanel.add(mealPanel, BorderLayout.SOUTH);
             mealPanel.setLayout(new BoxLayout(mealPanel, BoxLayout.Y_AXIS));
+            for (Meal meal : el.getMeals()) {
+                JButton recipebtn = new JButton();
+                recipebtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+                recipebtn.setText(meal.getName() + " Calories: " + meal.getCalories() + meal.getFoodType());
+                recipebtn.setIcon(meal.getPicture());
+                recipebtn.addActionListener(e -> {
+                    //TODO make the button display the recipe
+                });
+                mealPanel.add(recipebtn,-1);
+            }
 
             JButton btnAddToThis = new JButton("Add to this day");
             btnAddToThis.setFont(new Font("Javanese Text", Font.PLAIN, 13));
@@ -359,5 +377,4 @@ public class MealPlannerGui {
             }
         }
     }
-
 }
