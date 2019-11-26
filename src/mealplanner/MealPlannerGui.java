@@ -23,6 +23,8 @@ public class MealPlannerGui {
 
     public static void main(String[] args) {
         MealPlannerGui runner = new MealPlannerGui();
+        runner.frame.setSize(900, 600);
+        runner.frame.setLocationRelativeTo(null);
         runner.MainMenu();
         runner.frame.setVisible(true);
     }
@@ -62,7 +64,6 @@ public class MealPlannerGui {
     }
 
     private void MainMenu() {
-        frame.setBounds(100, 100, 900, 600);
         frame.setTitle(planner.getName());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addWindowListener(new WindowListener() {
