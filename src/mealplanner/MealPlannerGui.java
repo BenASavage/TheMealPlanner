@@ -10,10 +10,7 @@ package mealplanner;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.io.*;
 
 public class MealPlannerGui {
@@ -207,6 +204,7 @@ public class MealPlannerGui {
                 contentPane.revalidate();
                 mealPlanGUI(el);
             });
+            planButton.setAlignmentX(Component.CENTER_ALIGNMENT);
             planlistpanel.add(planButton);
         }
         planlistpanel.revalidate();
@@ -249,6 +247,36 @@ public class MealPlannerGui {
         JPanel btnpanel = new JPanel();
         contentPane.add(btnpanel, BorderLayout.SOUTH);
 
+        JLabel lblNewLabel = new JLabel("Plan Name:");
+        lblNewLabel.setFont(new Font("Javanese Text", Font.PLAIN, 17));
+        btnpanel.add(lblNewLabel);
+
+        JTextField textField = new JTextField();
+        textField.setFont(new Font("Javanese Text", Font.PLAIN, 17));
+        btnpanel.add(textField);
+        textField.setColumns(10);
+        textField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    String newName = textField.getText();
+                    if (newName.isEmpty() | newName.isBlank()) {
+
+                    }
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
+
         JButton Viewbtn = new JButton("View Other Plans");
         Viewbtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
         Viewbtn.addActionListener(new ActionListener() {
@@ -270,15 +298,6 @@ public class MealPlannerGui {
     private void mealListGUI(MealPlanner.MealPlan plan, Days thisDay) {
         JPanel panel = new JPanel();
         contentPane.add(panel, BorderLayout.SOUTH);
-
-        JLabel lblNewLabel = new JLabel("Plan Name:");
-        lblNewLabel.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        panel.add(lblNewLabel);
-
-        JTextField textField = new JTextField();
-        textField.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        panel.add(textField);
-        textField.setColumns(10);
 
         JButton Setbtn = new JButton("Set Plan");
         Setbtn.setFont(new Font("Javanese Text", Font.BOLD, 17));
