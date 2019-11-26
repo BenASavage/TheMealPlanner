@@ -183,7 +183,9 @@ public class MealPlannerGui {
         });
 
         displayCurrentPlans();
-        contentPane.add(planlistpanel, BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(planlistpanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        contentPane.add(scrollPane, BorderLayout.CENTER);
         planlistpanel.setLayout(new BoxLayout(planlistpanel,BoxLayout.Y_AXIS));
 
     }
@@ -208,7 +210,6 @@ public class MealPlannerGui {
             planlistpanel.add(planButton);
         }
         planlistpanel.revalidate();
-        planlistpanel.repaint();
     }
 
     private void mealPlanGUI(MealPlanner.MealPlan plan) {
@@ -218,7 +219,9 @@ public class MealPlannerGui {
         contentPane.add(lblCurrentPlan, BorderLayout.NORTH);
 
         JPanel panel = new JPanel();
-        contentPane.add(panel, BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        contentPane.add(scrollPane, BorderLayout.CENTER);
         panel.setLayout(new GridLayout(3, 2, 0, 0));
 
         for (Days el : plan.getWeekPlan()) {
