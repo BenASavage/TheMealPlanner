@@ -265,8 +265,9 @@ public class MealPlannerGui {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String newName = textField.getText();
-                    if (newName.isEmpty() | newName.isBlank()) {
-
+                    if (!newName.isEmpty() && !newName.isBlank()) {
+                        plan.setPlanName(newName);
+                        contentPane.repaint();
                     }
                 }
             }
