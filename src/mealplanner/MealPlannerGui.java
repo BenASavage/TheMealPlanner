@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
 
 public class MealPlannerGui {
     private MealPlanner planner = deserialize();
@@ -116,14 +117,13 @@ public class MealPlannerGui {
         JPanel panel = new JPanel();
         frame.getContentPane().add(panel, BorderLayout.SOUTH);
         JButton btnViewPlans = new JButton("View Plans");
+        btnViewPlans.setFocusPainted(false);
         //Button takes User to Plans
-        btnViewPlans.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.getContentPane().removeAll();
-                frame.getContentPane().revalidate();
-                frame.repaint();
-                plansGUI();
-            }
+        btnViewPlans.addActionListener(e -> {
+            frame.getContentPane().removeAll();
+            frame.getContentPane().revalidate();
+            frame.repaint();
+            plansGUI();
         });
         btnViewPlans.setFont(new Font("Javanese Text", Font.BOLD, 20));
         panel.add(btnViewPlans);
@@ -143,28 +143,26 @@ public class MealPlannerGui {
 
         JButton Returnbtn = new JButton("Return to Main Menu");
         Returnbtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        Returnbtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                contentPane.removeAll();
-                contentPane.revalidate();
-                MainMenu();
-            }
+        Returnbtn.setFocusPainted(false);
+        Returnbtn.addActionListener(e -> {
+            contentPane.removeAll();
+            contentPane.revalidate();
+            MainMenu();
         });
         btnpanel.add(Returnbtn);
 
         JButton Addbtn = new JButton("Add a new Plan");
         Addbtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
+        Addbtn.setFocusPainted(false);
         btnpanel.add(Addbtn);
-        Addbtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                planner.addToCurrentPlans(new MealPlanner.MealPlan());
-                displayCurrentPlans();
-            }
+        Addbtn.addActionListener(e -> {
+            planner.addToCurrentPlans(new MealPlanner.MealPlan());
+            displayCurrentPlans();
         });
 
         JButton Deletebtn = new JButton("Delete a Plan");
         Deletebtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
+        Deletebtn.setFocusPainted(false);
         btnpanel.add(Deletebtn);
         Deletebtn.addActionListener(e -> {
             String plan = JOptionPane.showInputDialog(frame,
@@ -194,6 +192,7 @@ public class MealPlannerGui {
         JScrollPane scrollPane = new JScrollPane(planlistpanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         contentPane.add(scrollPane, BorderLayout.CENTER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         planlistpanel.setLayout(new BoxLayout(planlistpanel,BoxLayout.Y_AXIS));
 
     }
@@ -209,13 +208,18 @@ public class MealPlannerGui {
         planlistpanel.removeAll();
         for (MealPlanner.MealPlan el : planner.getCurrentPlans()) {
             JButton planButton = new JButton(el.getPlanName() + " Calories: " + el.getTotalCalories());
+            planButton.setFocusPainted(false);
             planButton.addActionListener(e -> {
                 contentPane.removeAll();
                 contentPane.revalidate();
                 mealPlanGUI(el);
             });
             planButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            planButton.setMaximumSize(new Dimension(300, 50));
+            planButton.setMinimumSize(new Dimension(300, 50));
+            planButton.setPreferredSize(new Dimension(300, 50));
             planlistpanel.add(planButton, -1);
+            planlistpanel.add(Box.createVerticalStrut(10));
         }
         planlistpanel.revalidate();
         planlistpanel.repaint();
@@ -230,6 +234,7 @@ public class MealPlannerGui {
         JPanel panel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         contentPane.add(scrollPane, BorderLayout.CENTER);
         panel.setLayout(new GridLayout(3, 2, 0, 0));
 
@@ -237,17 +242,21 @@ public class MealPlannerGui {
             JPanel dayPanel = new JPanel();
             panel.add(dayPanel);
             dayPanel.setLayout(new BorderLayout(0, 0));
+            dayPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             JLabel lblDay = new JLabel(el.toString());
             lblDay.setFont(new Font("Javanese Text", Font.PLAIN, 17));
+            lblDay.setHorizontalAlignment(SwingConstants.CENTER);
             dayPanel.add(lblDay, BorderLayout.NORTH);
 
             JPanel mealPanel = new JPanel();
             dayPanel.add(mealPanel, BorderLayout.SOUTH);
             mealPanel.setLayout(new BoxLayout(mealPanel, BoxLayout.Y_AXIS));
+            mealPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
             for (Meal meal : el.getMeals()) {
                 JButton recipebtn = new JButton();
                 recipebtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+                recipebtn.setFocusPainted(false);
                 recipebtn.setText(meal.getName() + " Calories: " + meal.getCalories() + meal.getFoodType());
                 recipebtn.setIcon(meal.getPicture());
                 recipebtn.addActionListener(e -> {
@@ -258,6 +267,8 @@ public class MealPlannerGui {
 
             JButton btnAddToThis = new JButton("Add to this day");
             btnAddToThis.setFont(new Font("Javanese Text", Font.PLAIN, 13));
+            btnAddToThis.setAlignmentX(Component.CENTER_ALIGNMENT);
+            btnAddToThis.setFocusPainted(false);
             btnAddToThis.addActionListener(e -> {
                 contentPane.removeAll();
                 contentPane.revalidate();
@@ -304,19 +315,18 @@ public class MealPlannerGui {
 
         JButton Viewbtn = new JButton("View Other Plans");
         Viewbtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-        Viewbtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                contentPane.removeAll();
-                contentPane.revalidate();
-                contentPane.repaint();
-                plansGUI();
-            }
+        Viewbtn.setFocusPainted(false);
+        Viewbtn.addActionListener(e -> {
+            contentPane.removeAll();
+            contentPane.revalidate();
+            contentPane.repaint();
+            plansGUI();
         });
         btnpanel.add(Viewbtn);
 
         JButton Resetbtn = new JButton("Reset this Plan");
         Resetbtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
+        Resetbtn.setFocusPainted(false);
         btnpanel.add(Resetbtn);
     }
 
@@ -324,12 +334,17 @@ public class MealPlannerGui {
         JPanel panel = new JPanel();
         contentPane.add(panel, BorderLayout.SOUTH);
 
+        ArrayList<Meal> newSet = thisDay.getMeals();
+
         JButton Setbtn = new JButton("Set Plan");
         Setbtn.setFont(new Font("Javanese Text", Font.BOLD, 17));
+        Setbtn.setFocusPainted(false);
+        Setbtn.addActionListener(e -> thisDay.setMeals(newSet));
         panel.add(Setbtn);
 
         JButton Resetbtn = new JButton("Reset");
         Resetbtn.setFont(new Font("Javanese Text", Font.BOLD, 17));
+        Resetbtn.setFocusPainted(false);
         panel.add(Resetbtn);
         Resetbtn.addActionListener(e -> {
             contentPane.removeAll();
@@ -339,6 +354,7 @@ public class MealPlannerGui {
 
         JButton Cancelbtn = new JButton("Cancel");
         Cancelbtn.setFont(new Font("Javanese Text", Font.BOLD, 17));
+        Cancelbtn.setFocusPainted(false);
         panel.add(Cancelbtn);
         Cancelbtn.addActionListener(e -> {
             contentPane.removeAll();
@@ -356,6 +372,7 @@ public class MealPlannerGui {
 
         JScrollPane scrollPane = new JScrollPane(panel_1, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         contentPane.add(scrollPane);
 
         for (int i = 0; i < 35; i+=7) {
@@ -374,6 +391,14 @@ public class MealPlannerGui {
 
             for (int j = 0; j < 7; j++) {
                 JCheckBox checkBox_1 = new JCheckBox("");
+                checkBox_1.addItemListener(e -> {
+                    if (e.getStateChange() == ItemEvent.DESELECTED) {
+                        //TODO remove meal from newSet
+                    }
+                    else if (e.getStateChange() == ItemEvent.SELECTED) {
+                        //TODO add meal to newSet
+                    }
+                });
                 panel_2.add(checkBox_1);
             }
         }
