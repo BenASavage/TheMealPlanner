@@ -15,7 +15,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class MealPlannerGui {
-    private MealPlanner planner = deserialize();
+    private MealPlanner planner;
     private JFrame frame = new JFrame();
     private JPanel contentPane = new JPanel();
     private JPanel planlistpanel = new JPanel();
@@ -49,11 +49,7 @@ public class MealPlannerGui {
      * Takes user input to deserialize a previous account, if no account matches the provided name it creates a new one
      * @return the previously saved account or a new one if none are found.
      */
-    private MealPlanner deserialize() {
-        String name = JOptionPane.showInputDialog(frame,"Welcome to The Meal Planner! Enter your name:");
-        if (name == null || name.isEmpty() || name.isBlank()) {
-            System.exit(0);
-        }
+    private MealPlanner deserialize(String name) {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Data/" + name + "planner.ser"))) {
             MealPlanner planner = (MealPlanner) in.readObject();
             JOptionPane.showMessageDialog(frame,"Welcome Back " + planner.getName() + "!");
@@ -65,8 +61,78 @@ public class MealPlannerGui {
     }
 
     private void MainMenu() {
-        frame.setTitle(planner.getName());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JLabel lbltheMealPlanner = new JLabel("\"THE\" Meal Planner");
+        lbltheMealPlanner.setFont(new Font("Javanese Text", Font.BOLD, 25));
+        lbltheMealPlanner.setHorizontalAlignment(SwingConstants.CENTER);
+        frame.getContentPane().add(lbltheMealPlanner, BorderLayout.NORTH);
+
+        JLabel lblTurkey = new JLabel();
+        lblTurkey.setHorizontalAlignment(SwingConstants.CENTER);
+        lblTurkey.setIcon(new ImageIcon("images/Turkey.jpg"));
+        frame.getContentPane().add(lblTurkey, BorderLayout.CENTER);
+
+        JPanel panel = new JPanel();
+        frame.getContentPane().add(panel, BorderLayout.SOUTH);
+        panel.setLayout(new GridLayout(3,3));
+
+        JLabel lblWelcome = new JLabel("Welcome to The Meal Planner! Enter your name:");
+        lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(new JLabel(""));
+        panel.add(lblWelcome);
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+
+        JTextField userName = new JTextField(16);
+        userName.setHorizontalAlignment(SwingConstants.CENTER);
+        userName.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        userName.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    String name = userName.getText();
+                    if (!name.isEmpty() && !name.isBlank()) {
+                        planner = deserialize(name);
+
+                        panel.removeAll();
+                        panel.revalidate();
+                        panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+                        JButton btnViewPlans = new JButton("View Plans");
+                        btnViewPlans.setFocusPainted(false);
+                        //Button takes User to Plans
+                        btnViewPlans.addActionListener(l -> {
+                            frame.getContentPane().removeAll();
+                            frame.getContentPane().revalidate();
+                            frame.repaint();
+                            plansGUI();
+                        });
+                        btnViewPlans.setFont(new Font("Javanese Text", Font.BOLD, 20));
+                        panel.add(btnViewPlans);
+                    }
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
+        panel.add(userName);
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+    }
+
+    private void plansGUI() {
         frame.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {
@@ -104,32 +170,7 @@ public class MealPlannerGui {
             }
         });
 
-        JLabel lbltheMealPlanner = new JLabel("\"THE\" Meal Planner");
-        lbltheMealPlanner.setFont(new Font("Javanese Text", Font.BOLD, 25));
-        lbltheMealPlanner.setHorizontalAlignment(SwingConstants.CENTER);
-        frame.getContentPane().add(lbltheMealPlanner, BorderLayout.NORTH);
-
-        JLabel lblTurkey = new JLabel();
-        lblTurkey.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTurkey.setIcon(new ImageIcon("images/Turkey.jpg"));
-        frame.getContentPane().add(lblTurkey, BorderLayout.CENTER);
-
-        JPanel panel = new JPanel();
-        frame.getContentPane().add(panel, BorderLayout.SOUTH);
-        JButton btnViewPlans = new JButton("View Plans");
-        btnViewPlans.setFocusPainted(false);
-        //Button takes User to Plans
-        btnViewPlans.addActionListener(e -> {
-            frame.getContentPane().removeAll();
-            frame.getContentPane().revalidate();
-            frame.repaint();
-            plansGUI();
-        });
-        btnViewPlans.setFont(new Font("Javanese Text", Font.BOLD, 20));
-        panel.add(btnViewPlans);
-    }
-
-    private void plansGUI() {
+        frame.setTitle(planner.getName());
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         frame.setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 0));
@@ -147,6 +188,7 @@ public class MealPlannerGui {
         Returnbtn.addActionListener(e -> {
             contentPane.removeAll();
             contentPane.revalidate();
+            serialize();
             MainMenu();
         });
         btnpanel.add(Returnbtn);
