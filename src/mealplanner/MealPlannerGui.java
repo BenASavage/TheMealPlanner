@@ -303,6 +303,7 @@ public class MealPlannerGui {
                 recipebtn.setIcon(meal.getPicture());
                 recipebtn.addActionListener(e -> {
                     //TODO make the button display the recipe
+                    JOptionPane.showMessageDialog(frame, meal.getRecipe());
                 });
                 mealPanel.add(recipebtn,-1);
             }
@@ -381,7 +382,12 @@ public class MealPlannerGui {
         JButton Setbtn = new JButton("Set Plan");
         Setbtn.setFont(new Font("Javanese Text", Font.BOLD, 17));
         Setbtn.setFocusPainted(false);
-        Setbtn.addActionListener(e -> thisDay.setMeals(newSet));
+        Setbtn.addActionListener(e -> {
+                thisDay.setMeals(newSet);
+                contentPane.removeAll();
+                contentPane.revalidate();
+                mealPlanGUI(plan);
+        });
         panel.add(Setbtn);
 
         JButton Resetbtn = new JButton("Reset");

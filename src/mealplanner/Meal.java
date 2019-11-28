@@ -40,6 +40,11 @@ public class Meal implements Serializable, Comparable<Meal>{
         return foodType;
     }
 
+    public String getRecipe() {
+        //TODO read in from Data recipes
+        return null;
+    }
+
     @Override
     public int compareTo(Meal o) {
         return this.foodType.compareTo(o.getFoodType());
