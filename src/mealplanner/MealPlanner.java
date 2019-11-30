@@ -8,6 +8,7 @@
 package mealplanner;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +28,7 @@ class MealPlanner implements Serializable {
      * @see Meal.BLD
      * @see Meal
      */
-    private final ArrayList<Meal> mealList;
+    private transient ArrayList<Meal> mealList;
 
     /**
      * An ArrayList of the Meal Plans that the user has created.
@@ -47,16 +48,21 @@ class MealPlanner implements Serializable {
         this.currentPlans = new ArrayList<>();
     }
 
+    public MealPlanner(ArrayList<Meal> mealList, ArrayList<MealPlan> currentPlans, String name) {
+        this.mealList = mealList;
+        this.currentPlans = currentPlans;
+        this.name = name;
+    }
+
     /**
      * Reads in data from a file and parses it to create the all the Meals in mealList
      * @return the created Meal list
      * @see Meal
      * @see #mealList
-     * TODO read the data in from a file and add it to meals
      */
-    private ArrayList<Meal> createMealList() {
+    public ArrayList<Meal> createMealList() {
         ArrayList<Meal> meals = new ArrayList<>(35);
-        try (Scanner scan = new Scanner("Data/MealList.csv")) {
+        try (Scanner scan = new Scanner(new File("Data/MealList.csv"))) {
             while (scan.hasNextLine()) {
                 try {
                     String nextLine = scan.nextLine();
@@ -65,7 +71,7 @@ class MealPlanner implements Serializable {
                             + lineValues[0] + (lineValues[2].equals("Dinner") ? ".jpeg" : ".jpg")),
                             Integer.parseInt(lineValues[1]), Meal.BLD.valueOf(lineValues[2])));
                 } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-
+                    System.err.println("There was a problem creating the meal list");
                 }
             }
         } catch (Exception e) {
@@ -76,6 +82,10 @@ class MealPlanner implements Serializable {
 
     public ArrayList<Meal> getMealList() {
         return mealList;
+    }
+
+    public void setMealList(ArrayList<Meal> meals) {
+        this.mealList = meals;
     }
 
     public ArrayList<MealPlan> getCurrentPlans() {

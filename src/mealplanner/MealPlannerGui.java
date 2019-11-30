@@ -36,9 +36,9 @@ public class MealPlannerGui {
      * This method is called every time the program is closed.
      */
     private void serialize() {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Data/" +
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Data/Users/" +
                 planner.getName() + "planner.ser"))) {
-            out.writeObject(planner);
+            out.writeObject(this.planner);
         } catch (IOException e) {
             //Display message that says there was a problem saving the data
             JOptionPane.showMessageDialog(frame, "There was a problem saving your data");
@@ -50,9 +50,10 @@ public class MealPlannerGui {
      * @return the previously saved account or a new one if none are found.
      */
     private MealPlanner deserialize(String name) {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Data/" + name + "planner.ser"))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Data/Users/" + name + "planner.ser"))) {
             MealPlanner planner = (MealPlanner) in.readObject();
             JOptionPane.showMessageDialog(frame,"Welcome Back " + planner.getName() + "!");
+            planner.setMealList(planner.createMealList());
             return planner;
         } catch (IOException | ClassNotFoundException e) {
             //This block will run the first time the user uses the program
@@ -299,16 +300,15 @@ public class MealPlannerGui {
                 JButton recipebtn = new JButton();
                 recipebtn.setAlignmentX(Component.CENTER_ALIGNMENT);
                 recipebtn.setFocusPainted(false);
-                recipebtn.setText(meal.getName() + " Calories: " + meal.getCalories() + meal.getFoodType());
+                recipebtn.setText(meal.getName() + " Calories: " + meal.getCalories() + " " + meal.getFoodType());
                 recipebtn.setIcon(meal.getPicture());
-                recipebtn.addActionListener(e -> {
-                    //TODO make the button display the recipe
-                    JOptionPane.showMessageDialog(frame, meal.getRecipe());
-                });
-                mealPanel.add(recipebtn,-1);
+                recipebtn.setPreferredSize(new Dimension(100,100));
+                recipebtn.addActionListener(e -> JOptionPane.showMessageDialog(frame, meal.getRecipe()));
+                mealPanel.add(recipebtn, -1);
+                mealPanel.add(Box.createVerticalStrut(5));
             }
 
-            JButton btnAddToThis = new JButton("Add to this day");
+            JButton btnAddToThis = new JButton("Edit this day");
             btnAddToThis.setFont(new Font("Javanese Text", Font.PLAIN, 13));
             btnAddToThis.setAlignmentX(Component.CENTER_ALIGNMENT);
             btnAddToThis.setFocusPainted(false);
@@ -383,10 +383,14 @@ public class MealPlannerGui {
         Setbtn.setFont(new Font("Javanese Text", Font.BOLD, 17));
         Setbtn.setFocusPainted(false);
         Setbtn.addActionListener(e -> {
-                thisDay.setMeals(newSet);
-                contentPane.removeAll();
-                contentPane.revalidate();
-                mealPlanGUI(plan);
+            //ArrayList<MealPlanner.MealPlan> temp = new ArrayList<>(planner.getCurrentPlans());
+            //temp.get(temp.indexOf(plan)).getWeekPlan().get(plan.getWeekPlan().indexOf(thisDay)).setMeals(newSet);
+            //planner.setCurrentPlans(temp);
+            //plan.getWeekPlan().get(plan.getWeekPlan().indexOf(thisDay)).setMeals(newSet);
+            thisDay.setMeals(newSet);
+            contentPane.removeAll();
+            contentPane.revalidate();
+            mealPlanGUI(plan);
         });
         panel.add(Setbtn);
 
@@ -423,7 +427,7 @@ public class MealPlannerGui {
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         contentPane.add(scrollPane);
 
-        for (int i = 0; i < 35; i+=7) {
+        for (int i = 0; i < planner.getMealList().size(); i+=7) {
             JPanel mealPanel = new JPanel();
             panel_1.add(mealPanel);
             mealPanel.setLayout(new BorderLayout(0, 0));
@@ -438,16 +442,30 @@ public class MealPlannerGui {
             panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
 
             for (int j = 0; j < 7; j++) {
-                JCheckBox checkBox_1 = new JCheckBox("");
+                JPanel displayPanel = new JPanel();
+                JLabel lblcheck = new JLabel(planner.getMealList().get(i + j).getName());
+                lblcheck.setIcon(planner.getMealList().get(i + j).getPicture());
+                lblcheck.setHorizontalAlignment(SwingConstants.LEFT);
+                lblcheck.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+                JCheckBox checkBox_1 = new JCheckBox();
+                checkBox_1.setSelected(newSet.contains(planner.getMealList().get(i + j)));
+                checkBox_1.setAlignmentX(Component.LEFT_ALIGNMENT);
+                int finalJ = j;
+                int finalI = i;
                 checkBox_1.addItemListener(e -> {
                     if (e.getStateChange() == ItemEvent.DESELECTED) {
-                        //TODO remove meal from newSet
+                        newSet.remove(planner.getMealList().get(finalI + finalJ));
                     }
                     else if (e.getStateChange() == ItemEvent.SELECTED) {
-                        //TODO add meal to newSet
+                        newSet.add(planner.getMealList().get(finalI + finalJ));
                     }
                 });
-                panel_2.add(checkBox_1);
+                displayPanel.add(checkBox_1);
+                displayPanel.add(lblcheck);
+                displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.Y_AXIS));
+                panel_2.add(displayPanel);
+                panel_2.add(Box.createVerticalStrut(25));
             }
         }
     }
