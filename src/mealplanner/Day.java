@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Days is a enum containing the standard days of the week. Each Day is an ArrayList of meals,
- * set to an initial capacity of 3.
+ * Day is an object coresponding the standard days of the week. Each Day is an ArrayList of meals, as well as a calorie count, and has
+ * a name.
  */
 public class Day implements Serializable {
 
