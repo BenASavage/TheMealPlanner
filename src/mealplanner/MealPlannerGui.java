@@ -199,7 +199,7 @@ public class MealPlannerGui {
         Addbtn.setFocusPainted(false);
         btnpanel.add(Addbtn);
         Addbtn.addActionListener(e -> {
-            planner.addToCurrentPlans(new MealPlanner.MealPlan());
+            planner.addToCurrentPlans(new MealPlan());
             displayCurrentPlans();
         });
 
@@ -216,7 +216,7 @@ public class MealPlannerGui {
                 inPlans = true;
             }
             if (!inPlans) {
-                for (MealPlanner.MealPlan el : planner.getCurrentPlans()) {
+                for (MealPlan el : planner.getCurrentPlans()) {
                     if (el.getPlanName().equals(plan)) {
                         planner.removeFromCurrentPlans(el);
                         inPlans = true;
@@ -249,7 +249,7 @@ public class MealPlannerGui {
         }
 
         planlistpanel.removeAll();
-        for (MealPlanner.MealPlan el : planner.getCurrentPlans()) {
+        for (MealPlan el : planner.getCurrentPlans()) {
             JButton planButton = new JButton(el.getPlanName() + " Calories: " + el.getTotalCalories());
             planButton.setFocusPainted(false);
             planButton.addActionListener(e -> {
@@ -268,7 +268,7 @@ public class MealPlannerGui {
         planlistpanel.repaint();
     }
 
-    private void mealPlanGUI(MealPlanner.MealPlan plan) {
+    private void mealPlanGUI(MealPlan plan) {
         JLabel lblCurrentPlan = new JLabel(plan.getPlanName());
         lblCurrentPlan.setHorizontalAlignment(SwingConstants.CENTER);
         lblCurrentPlan.setFont(new Font("Javanese Text", Font.BOLD, 24));
@@ -373,7 +373,7 @@ public class MealPlannerGui {
         btnpanel.add(Resetbtn);
     }
 
-    private void mealListGUI(MealPlanner.MealPlan plan, Days thisDay) {
+    private void mealListGUI(MealPlan plan, Days thisDay) {
         JPanel panel = new JPanel();
         contentPane.add(panel, BorderLayout.SOUTH);
 

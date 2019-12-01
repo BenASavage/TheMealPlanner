@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MealPlanTest {
 
-    private MealPlanner.MealPlan tester = new MealPlanner.MealPlan("Week 1");
+    private MealPlan tester = new MealPlan("Week 1");
 
     @Test
     void getWeekPlan() {

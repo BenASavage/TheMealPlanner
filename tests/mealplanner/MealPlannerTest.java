@@ -12,14 +12,14 @@ class MealPlannerTest {
 
     @Test
     void addToCurrentPlans() {
-        MealPlanner.MealPlan testPlan = new MealPlanner.MealPlan();
+        MealPlan testPlan = new MealPlan();
         tester.addToCurrentPlans(testPlan);
         assertEquals(tester.getCurrentPlans().get(0), testPlan);
     }
 
     @Test
     void removeFromCurrentPlans() {
-        MealPlanner.MealPlan testPlan = new MealPlanner.MealPlan();
+        MealPlan testPlan = new MealPlan();
         tester.addToCurrentPlans(testPlan);
         tester.removeFromCurrentPlans(testPlan);
         assertEquals(0, tester.getCurrentPlans().size());
@@ -32,7 +32,7 @@ class MealPlannerTest {
 
     @Test
     void accessMealPlans() {
-        tester.addToCurrentPlans(new MealPlanner.MealPlan());
+        tester.addToCurrentPlans(new MealPlan());
         tester.getCurrentPlans().get(0).getWeekPlan().get(3).addMeal(
                 new Meal("name",new ImageIcon(),255, Meal.BLD.Breakfast));
         assertEquals(255,tester.getCurrentPlans().get(0).getTotalCalories());
@@ -40,10 +40,10 @@ class MealPlannerTest {
 
     @Test
     void accessMealPlans2() {
-        tester.addToCurrentPlans(new MealPlanner.MealPlan());
+        tester.addToCurrentPlans(new MealPlan());
         tester.getCurrentPlans().get(0).getWeekPlan().get(0).addMeal(
                 new Meal("name",new ImageIcon(),255, Meal.BLD.Breakfast));
-        tester.addToCurrentPlans(new MealPlanner.MealPlan());
+        tester.addToCurrentPlans(new MealPlan());
         tester.getCurrentPlans().get(1).getWeekPlan().get(0).addMeal(
                 new Meal("name",new ImageIcon(),255, Meal.BLD.Breakfast));
         assertEquals(255,tester.getCurrentPlans().get(0).getTotalCalories());
