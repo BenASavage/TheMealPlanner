@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Day is an object coresponding the standard days of the week. Each Day is an ArrayList of meals, as well as a calorie count, and has
- * a name.
+ * Day is an object corresponding the standard days of the week and has a ArrayList of Meals.
  */
 public class Day implements Serializable {
 
