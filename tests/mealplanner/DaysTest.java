@@ -1,31 +1,35 @@
 package mealplanner;
 
 import org.junit.Assert;
+import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 
-class DaysTest {
+class DayTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getTotalCalories() {
+        Day TestDay = new Day("Monday");
         Meal m = new Meal("chicken", new ImageIcon(), 120, Meal.BLD.Lunch);
-        Days.Monday.addMeal(m);
-        Days.Monday.addMeal(new Meal("test", new ImageIcon(), 150, Meal.BLD.Snack));
-        Assert.assertEquals(270, Days.Monday.getTotalCalories());
+        TestDay.addMeal(m);
+        TestDay.addMeal(new Meal("test", new ImageIcon(), 150, Meal.BLD.Snack));
+        Assert.assertEquals(270, TestDay.getTotalCalories());
     }
 
     @org.junit.jupiter.api.Test
     void addMeal() {
+        Day TestDay = new Day("Monday");
         Meal m = new Meal("chicken", new ImageIcon(), 120, Meal.BLD.Lunch);
-        Days.Monday.addMeal(m);
-        Assert.assertEquals(m, Days.Monday.getMeals().get(0));
+        TestDay.addMeal(m);
+        Assert.assertEquals(m, TestDay.getMeals().get(0));
     }
 
     @org.junit.jupiter.api.Test
     void removeMeal() {
+        Day TestDay = new Day("Monday");
         Meal m = new Meal("chicken", new ImageIcon(), 120, Meal.BLD.Lunch);
-        Days.Monday.addMeal(m);
-        Days.Monday.removeMeal(m);
-        Assert.assertEquals(0, Days.Monday.getMeals().size());
+        TestDay.addMeal(m);
+        TestDay.removeMeal(m);
+        Assert.assertEquals(0, TestDay.getMeals().size());
     }
 }

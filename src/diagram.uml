@@ -3,87 +3,79 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="139.2158333333333" y="445.0">mealplanner.MealPlanner.MealPlan</node>
-    <node x="0.0" y="144.0">mealplanner.MealPlanner</node>
-    <node x="558.0" y="100.0">mealplanner.Days</node>
-    <node x="315.0" y="155.0">mealplanner.Meal</node>
-    <node x="0.0" y="652.0">mealplanner.MealPlannerGui</node>
-    <node x="402.2891666666666" y="457.0">mealplanner.Meal.BLD</node>
-    <node x="616.9833333333333" y="0.0">java.lang.Comparable</node>
-    <node x="235.92666666666665" y="12.0">java.io.Serializable</node>
+    <node x="200.4999999999999" y="133.0">mealplanner.MealPlanner</node>
+    <node x="798.4999999999999" y="122.0">mealplanner.Meal</node>
+    <node x="584.4999999999999" y="100.0">mealplanner.Days</node>
+    <node x="0.0" y="628.0">mealplanner.MealPlannerGui</node>
+    <node x="870.637037037037" y="445.0">mealplanner.Meal.BLD</node>
+    <node x="874.561111111111" y="0.0">java.lang.Comparable</node>
+    <node x="10.499999999999886" y="166.5">mealplanner.MealPlan</node>
+    <node x="336.59537037037023" y="12.0">java.io.Serializable</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="mealplanner.Days" target="java.lang.Comparable">
-      <point x="48.5" y="-147.5" />
-      <point x="703.5" y="80.0" />
-      <point x="685.9833333333333" y="80.0" />
+    <edge source="mealplanner.Days" target="java.io.Serializable">
+      <point x="-48.50000000000006" y="-147.5" />
+      <point x="632.9999999999999" y="80.0" />
+      <point x="428.9953703703702" y="80.0" />
+      <point x="26.399999999999977" y="13.0" />
+    </edge>
+    <edge source="mealplanner.Meal.BLD" target="java.io.Serializable">
+      <point x="-22.33333333333337" y="-69.0" />
+      <point x="881.8037037037036" y="425.0" />
+      <point x="0.0" y="425.0" />
+      <point x="0.0" y="70.0" />
+      <point x="349.7953703703702" y="70.0" />
+      <point x="-52.80000000000001" y="13.0" />
+    </edge>
+    <edge source="mealplanner.Meal" target="java.lang.Comparable">
+      <point x="62.25" y="-125.5" />
+      <point x="985.2499999999999" y="80.0" />
+      <point x="943.561111111111" y="80.0" />
       <point x="0.0" y="25.0" />
     </edge>
     <edge source="mealplanner.Meal.BLD" target="mealplanner.Meal">
       <point x="0.0" y="-69.0" />
-      <point x="435.7891666666666" y="420.0" />
-      <point x="426.5" y="420.0" />
-      <point x="0.0" y="92.5" />
+      <point x="904.137037037037" y="415.0" />
+      <point x="922.9999999999999" y="415.0" />
+      <point x="0.0" y="125.5" />
     </edge>
-    <edge source="mealplanner.MealPlanner.MealPlan" target="java.io.Serializable">
-      <point x="42.5" y="-81.0" />
-      <point x="266.7158333333333" y="420.0" />
-      <point x="293.5" y="420.0" />
-      <point x="293.5" y="80.0" />
-      <point x="275.52666666666664" y="80.0" />
-      <point x="-26.399999999999977" y="13.0" />
-    </edge>
-    <edge source="mealplanner.MealPlanner" target="java.io.Serializable">
-      <point x="0.0" y="-103.5" />
-      <point x="141.5" y="80.0" />
-      <point x="249.12666666666664" y="80.0" />
-      <point x="-52.80000000000001" y="13.0" />
-    </edge>
-    <edge source="mealplanner.Meal" target="java.io.Serializable">
-      <point x="-55.75" y="-92.5" />
-      <point x="370.75" y="80.0" />
-      <point x="328.3266666666666" y="80.0" />
-      <point x="26.399999999999977" y="13.0" />
-    </edge>
-    <edge source="mealplanner.MealPlanner.MealPlan" target="mealplanner.MealPlanner">
-      <point x="-42.5" y="-81.0" />
-      <point x="181.7158333333333" y="420.0" />
-      <point x="141.5" y="420.0" />
-      <point x="0.0" y="103.5" />
-    </edge>
-    <edge source="mealplanner.Meal.BLD" target="java.io.Serializable">
-      <point x="-22.33333333333333" y="-69.0" />
-      <point x="413.45583333333326" y="420.0" />
-      <point x="304.5" y="420.0" />
-      <point x="304.5" y="80.0" />
-      <point x="301.9266666666666" y="80.0" />
-      <point x="0.0" y="13.0" />
-    </edge>
-    <edge source="mealplanner.Days" target="java.io.Serializable">
-      <point x="-48.5" y="-147.5" />
-      <point x="606.5" y="70.0" />
-      <point x="354.7266666666667" y="70.0" />
-      <point x="52.80000000000001" y="13.0" />
-    </edge>
-    <edge source="mealplanner.Meal" target="java.lang.Comparable">
-      <point x="55.75" y="-92.5" />
-      <point x="482.25" y="80.0" />
-      <point x="639.9833333333333" y="80.0" />
+    <edge source="mealplanner.Days" target="java.lang.Comparable">
+      <point x="48.49999999999994" y="-147.5" />
+      <point x="729.9999999999999" y="80.0" />
+      <point x="897.561111111111" y="80.0" />
       <point x="-46.0" y="25.0" />
     </edge>
     <edge source="mealplanner.Meal.BLD" target="java.lang.Comparable">
-      <point x="22.333333333333343" y="-69.0" />
-      <point x="458.12249999999995" y="420.0" />
-      <point x="762.5" y="420.0" />
-      <point x="762.5" y="80.0" />
-      <point x="731.9833333333333" y="80.0" />
+      <point x="22.33333333333337" y="-69.0" />
+      <point x="926.4703703703703" y="425.0" />
+      <point x="1058.0" y="425.0" />
+      <point x="1058.0" y="70.0" />
+      <point x="989.561111111111" y="70.0" />
       <point x="46.0" y="25.0" />
     </edge>
+    <edge source="mealplanner.Meal" target="java.io.Serializable">
+      <point x="-62.25" y="-125.5" />
+      <point x="860.7499999999999" y="70.0" />
+      <point x="455.39537037037024" y="70.0" />
+      <point x="52.80000000000001" y="13.0" />
+    </edge>
+    <edge source="mealplanner.MealPlanner" target="java.io.Serializable">
+      <point x="0.0" y="-114.5" />
+      <point x="382.4999999999999" y="80.0" />
+      <point x="402.59537037037023" y="80.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="mealplanner.MealPlan" target="java.io.Serializable">
+      <point x="0.0" y="-81.0" />
+      <point x="95.49999999999989" y="80.0" />
+      <point x="376.19537037037026" y="80.0" />
+      <point x="-26.399999999999977" y="13.0" />
+    </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.5524781341107873" x="387.0" y="801.905013192612" />
+  <settings layout="Hierarchic Group" zoom="0.5524781341107873" x="387.0" y="477.84960422163584" />
   <SelectedNodes>
-    <node>mealplanner.MealPlanner</node>
+    <node>mealplanner.MealPlan</node>
   </SelectedNodes>
   <Categories>
     <Category>Fields</Category>

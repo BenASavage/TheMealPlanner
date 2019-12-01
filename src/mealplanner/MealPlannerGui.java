@@ -38,7 +38,7 @@ public class MealPlannerGui {
     private void serialize() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Data/Users/" +
                 planner.getName() + "planner.ser"))) {
-            out.writeObject(this.planner);
+            out.writeObject(planner);
         } catch (IOException e) {
             //Display message that says there was a problem saving the data
             JOptionPane.showMessageDialog(frame, "There was a problem saving your data");
@@ -61,6 +61,9 @@ public class MealPlannerGui {
         }
     }
 
+    /**
+     * Displays the GUI for the main menu.
+     */
     private void MainMenu() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -133,6 +136,9 @@ public class MealPlannerGui {
         panel.add(new JLabel(""));
     }
 
+    /**
+     * Displays the GUI for the plans view.
+     */
     private void plansGUI() {
         frame.addWindowListener(new WindowListener() {
             @Override
@@ -240,6 +246,9 @@ public class MealPlannerGui {
 
     }
 
+    /**
+     * Displays the current plans as buttons to the plansGUI.
+     */
     private void displayCurrentPlans() {
         if (planner.getCurrentPlans().isEmpty()) {
             lblPlans.setText("No Plans Available");
@@ -268,6 +277,10 @@ public class MealPlannerGui {
         planlistpanel.repaint();
     }
 
+    /**
+     * The GUI for viewing a plan
+     * @param plan the plan being viewed
+     */
     private void mealPlanGUI(MealPlan plan) {
         JLabel lblCurrentPlan = new JLabel(plan.getPlanName());
         lblCurrentPlan.setHorizontalAlignment(SwingConstants.CENTER);
@@ -281,13 +294,13 @@ public class MealPlannerGui {
         contentPane.add(scrollPane, BorderLayout.CENTER);
         panel.setLayout(new GridLayout(3, 2, 0, 0));
 
-        for (Days el : plan.getWeekPlan()) {
+        for (Day el : plan.getWeekPlan()) {
             JPanel dayPanel = new JPanel();
             panel.add(dayPanel);
             dayPanel.setLayout(new BorderLayout(0, 0));
             dayPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            JLabel lblDay = new JLabel(el.toString());
+            JLabel lblDay = new JLabel(el.getName());
             lblDay.setFont(new Font("Javanese Text", Font.PLAIN, 17));
             lblDay.setHorizontalAlignment(SwingConstants.CENTER);
             dayPanel.add(lblDay, BorderLayout.NORTH);
@@ -301,10 +314,10 @@ public class MealPlannerGui {
                 recipebtn.setAlignmentX(Component.CENTER_ALIGNMENT);
                 recipebtn.setFocusPainted(false);
                 recipebtn.setText(meal.getName() + " Calories: " + meal.getCalories() + " " + meal.getFoodType());
-                recipebtn.setIcon(meal.getPicture());
+                recipebtn.setIcon(meal.getSmallPicture());
                 recipebtn.setPreferredSize(new Dimension(100,100));
                 recipebtn.addActionListener(e -> JOptionPane.showMessageDialog(frame, meal.getRecipe()));
-                mealPanel.add(recipebtn, -1);
+                mealPanel.add(recipebtn);
                 mealPanel.add(Box.createVerticalStrut(5));
             }
 
@@ -373,7 +386,12 @@ public class MealPlannerGui {
         btnpanel.add(Resetbtn);
     }
 
-    private void mealListGUI(MealPlan plan, Days thisDay) {
+    /**
+     * The GUI for editing a day
+     * @param plan the plan the user is currently in
+     * @param thisDay the day that is being edited
+     */
+    private void mealListGUI(MealPlan plan, Day thisDay) {
         JPanel panel = new JPanel();
         contentPane.add(panel, BorderLayout.SOUTH);
 
@@ -383,10 +401,6 @@ public class MealPlannerGui {
         Setbtn.setFont(new Font("Javanese Text", Font.BOLD, 17));
         Setbtn.setFocusPainted(false);
         Setbtn.addActionListener(e -> {
-            //ArrayList<MealPlanner.MealPlan> temp = new ArrayList<>(planner.getCurrentPlans());
-            //temp.get(temp.indexOf(plan)).getWeekPlan().get(plan.getWeekPlan().indexOf(thisDay)).setMeals(newSet);
-            //planner.setCurrentPlans(temp);
-            //plan.getWeekPlan().get(plan.getWeekPlan().indexOf(thisDay)).setMeals(newSet);
             thisDay.setMeals(newSet);
             contentPane.removeAll();
             contentPane.revalidate();
@@ -414,7 +428,7 @@ public class MealPlannerGui {
             mealPlanGUI(plan);
         });
 
-        JLabel lblNewPlan = new JLabel(thisDay.toString());
+        JLabel lblNewPlan = new JLabel(thisDay.getName());
         lblNewPlan.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewPlan.setFont(new Font("Javanese Text", Font.BOLD, 24));
         contentPane.add(lblNewPlan, BorderLayout.NORTH);

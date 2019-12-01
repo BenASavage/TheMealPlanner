@@ -3,8 +3,6 @@ package mealplanner;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,13 +12,12 @@ class MealPlanTest {
 
     @Test
     void getWeekPlan() {
-        ArrayList<Days> testList = new ArrayList<>(Arrays.asList(Days.values()));
-        assertEquals(testList, tester.getWeekPlan());
+        assertEquals("Sunday", tester.getWeekPlan().get(0).getName());
     }
 
     @Test
     void getWeekPlanTest2() {
-        assertEquals(Days.Sunday, tester.getWeekPlan().get(0));
+        assertEquals("Monday", tester.getWeekPlan().get(1).getName());
     }
 
     @Test

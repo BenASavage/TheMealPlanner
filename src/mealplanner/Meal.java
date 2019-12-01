@@ -17,10 +17,30 @@ import java.util.Scanner;
 
 public class Meal implements Serializable, Comparable<Meal>{
     private static final long serialVersionUID = -5336803356165679535L;
+
+    /**
+     * Name of the Meal.
+     */
     private String name;
+
+    /**
+     * The image corresponding to the meal.
+     */
     private ImageIcon picture;
+
+    /**
+     * A small version of the meal's picture.
+     */
     private ImageIcon smallPicture;
+
+    /**
+     * The amount of calories in a meal.
+     */
     private int calories;
+
+    /**
+     * The food type of the meal. Eg. Breakfast, Lunch, Dinner, ect.
+     */
     private BLD foodType;
 
     public Meal(String name, ImageIcon picture, int calories, BLD foodType) {
@@ -51,6 +71,11 @@ public class Meal implements Serializable, Comparable<Meal>{
         return foodType;
     }
 
+    /**
+     * Reads in, using the name of the meal, a recipe for the meal. For displaying purposes a new line character is
+     * concatenated after each line read in from the txt file.
+     * @return the Meal's recipe
+     */
     public String getRecipe() {
         try (Scanner scan = new Scanner(new File("Data/Recipes/" + name + ".txt"))) {
             String recipe = "";
@@ -63,6 +88,13 @@ public class Meal implements Serializable, Comparable<Meal>{
         }
     }
 
+    /**
+     * Scales an Image to the desired height and width.
+     * @param srcImg Image to be scaled
+     * @param w width
+     * @param h height
+     * @return Scaled Image
+     */
     private Image getScaledImage(Image srcImg, int w, int h) {
         BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = resizedImg.createGraphics();

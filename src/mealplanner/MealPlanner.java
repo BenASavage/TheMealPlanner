@@ -41,16 +41,15 @@ class MealPlanner implements Serializable {
      */
     private String name;
 
+    /**
+     * Constructor for MealPlanner. mealList is created using the createMealList method. name is initialized to
+     * specified name. currentPlans is initialized to a default ArrayList.
+     * @param name
+     */
     public MealPlanner(String name) {
         this.mealList = createMealList();
         this.name = name;
         this.currentPlans = new ArrayList<>();
-    }
-
-    public MealPlanner(ArrayList<Meal> mealList, ArrayList<MealPlan> currentPlans, String name) {
-        this.mealList = mealList;
-        this.currentPlans = currentPlans;
-        this.name = name;
     }
 
     /**
@@ -76,6 +75,7 @@ class MealPlanner implements Serializable {
         } catch (Exception e) {
             System.err.println("There was a problem creating the meal list");
         }
+        meals.sort(Meal::compareTo);
         return meals;
     }
 
@@ -95,6 +95,11 @@ class MealPlanner implements Serializable {
         this.currentPlans = currentPlans;
     }
 
+    /**
+     * Adds to current plans
+     * @param newPlan plan to be added
+     * @return True or false based on the success of the method
+     */
     public boolean addToCurrentPlans(MealPlan newPlan) {
         try {
             this.currentPlans.add(newPlan);
@@ -104,6 +109,11 @@ class MealPlanner implements Serializable {
         }
     }
 
+    /**
+     * Removes from current plans
+     * @param plan plan to be added
+     * @return True or false based on the success of the method
+     */
     public boolean removeFromCurrentPlans(MealPlan plan) {
         try {
             this.currentPlans.remove(plan);
