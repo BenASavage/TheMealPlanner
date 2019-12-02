@@ -77,13 +77,13 @@ public class Meal implements Serializable, Comparable<Meal>{
      * @return the Meal's recipe
      */
     public String getRecipe() {
-        try (Scanner scan = new Scanner(new File("Data/Recipes/" + name + ".txt"))) {
+        try (Scanner scan = new Scanner(this.getClass().getResourceAsStream("/Recipes/" + name + ".txt"))) {
             String recipe = "";
             while (scan.hasNextLine()) {
                 recipe = recipe.concat(scan.nextLine() + "\n");
             }
             return recipe;
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             return "Recipe not found";
         }
     }

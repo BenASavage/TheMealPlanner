@@ -36,8 +36,8 @@ public class MealPlannerGui {
      * This method is called every time the program is closed.
      */
     private void serialize() {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Data/" +
-                planner.getName() + "planner.ser"))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(planner.getName()
+                + "planner.ser"))) {
             out.writeObject(planner);
         } catch (IOException e) {
             //Display message that says there was a problem saving the data
@@ -50,7 +50,7 @@ public class MealPlannerGui {
      * @return the previously saved account or a new one if none are found.
      */
     private MealPlanner deserialize(String name) {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Data/" + name + "planner.ser"))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(name + "planner.ser"))) {
             MealPlanner planner = (MealPlanner) in.readObject();
             JOptionPane.showMessageDialog(frame,"Welcome Back " + planner.getName() + "!");
             planner.setMealList(planner.createMealList());
@@ -74,7 +74,7 @@ public class MealPlannerGui {
 
         JLabel lblTurkey = new JLabel();
         lblTurkey.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTurkey.setIcon(new ImageIcon("images/Turkey.jpg"));
+        lblTurkey.setIcon(new ImageIcon(this.getClass().getResource("/Turkey.jpg")));
         frame.getContentPane().add(lblTurkey, BorderLayout.CENTER);
 
         JPanel panel = new JPanel();
@@ -306,7 +306,7 @@ public class MealPlannerGui {
             dayPanel.add(lblDay, BorderLayout.NORTH);
 
             JPanel mealPanel = new JPanel();
-            dayPanel.add(mealPanel, BorderLayout.SOUTH);
+            dayPanel.add(mealPanel, BorderLayout.CENTER);
             mealPanel.setLayout(new BoxLayout(mealPanel, BoxLayout.Y_AXIS));
             mealPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
             for (Meal meal : el.getMeals()) {

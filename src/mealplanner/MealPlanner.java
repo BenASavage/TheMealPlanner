@@ -60,13 +60,13 @@ class MealPlanner implements Serializable {
      */
     public ArrayList<Meal> createMealList() {
         ArrayList<Meal> meals = new ArrayList<>(35);
-        try (Scanner scan = new Scanner(new File("Data/MealList.csv"))) {
+        try (Scanner scan = new Scanner(this.getClass().getResourceAsStream("/MealList.csv"))) {
             while (scan.hasNextLine()) {
                 try {
                     String nextLine = scan.nextLine();
                     String[] lineValues = nextLine.split(",");
-                    meals.add(new Meal(lineValues[0], new ImageIcon("images/BLD/" + lineValues[2] + "/"
-                            + lineValues[0] + (lineValues[2].equals("Dinner") ? ".jpeg" : ".jpg")),
+                    meals.add(new Meal(lineValues[0], new ImageIcon(this.getClass().getResource("/BLD/" + lineValues[2] + "/"
+                            + lineValues[0] + (lineValues[2].equals("Dinner") ? ".jpeg" : ".jpg"))),
                             Integer.parseInt(lineValues[1]), Meal.BLD.valueOf(lineValues[2])));
                 } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
                     System.err.println("There was a problem creating the meal list");
