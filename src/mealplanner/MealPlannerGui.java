@@ -36,7 +36,7 @@ public class MealPlannerGui {
      * This method is called every time the program is closed.
      */
     private void serialize() {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Data/Users/" +
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Data/" +
                 planner.getName() + "planner.ser"))) {
             out.writeObject(planner);
         } catch (IOException e) {
@@ -50,7 +50,7 @@ public class MealPlannerGui {
      * @return the previously saved account or a new one if none are found.
      */
     private MealPlanner deserialize(String name) {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Data/Users/" + name + "planner.ser"))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Data/" + name + "planner.ser"))) {
             MealPlanner planner = (MealPlanner) in.readObject();
             JOptionPane.showMessageDialog(frame,"Welcome Back " + planner.getName() + "!");
             planner.setMealList(planner.createMealList());
