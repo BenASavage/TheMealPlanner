@@ -97,7 +97,7 @@ public class MealPlannerGui {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String name = userName.getText();
-                    if (!name.isEmpty() && !name.isBlank()) {
+                    if (!name.isEmpty()) {
                         planner = deserialize(name);
 
                         panel.removeAll();
@@ -215,7 +215,7 @@ public class MealPlannerGui {
             }
             if (!inPlans) {
                 for (MealPlan el : planner.getCurrentPlans()) {
-                    if (el.getPlanName().equals(plan)) {
+                    if (el.getPlanName().equalsIgnoreCase(plan)) {
                         planner.removeFromCurrentPlans(el);
                         inPlans = true;
                         break;
@@ -310,6 +310,10 @@ public class MealPlannerGui {
                 JButton recipebtn = new JButton();
                 recipebtn.setAlignmentX(Component.CENTER_ALIGNMENT);
                 recipebtn.setFocusPainted(false);
+                recipebtn.setFont(new Font("Javanese Text", Font.PLAIN, 15));
+                recipebtn.setMaximumSize(new Dimension(300, 60));
+                recipebtn.setMinimumSize(new Dimension(300, 60));
+                recipebtn.setPreferredSize(new Dimension(300, 60));
                 recipebtn.setText(meal.getName());
                 recipebtn.setIcon(meal.getSmallPicture());
                 recipebtn.setToolTipText("<HTML>"+"Calories: " + meal.getCalories() + "<BR>" + meal.getFoodType()+"</HTML>");
@@ -352,7 +356,7 @@ public class MealPlannerGui {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String newName = textField.getText();
-                    if (!newName.isEmpty() && !newName.isBlank()) {
+                    if (!newName.isEmpty()) {
                         plan.setPlanName(newName);
                         contentPane.removeAll();
                         contentPane.revalidate();
@@ -452,7 +456,7 @@ public class MealPlannerGui {
 
             JLabel lblType = new JLabel(Meal.BLD.values()[i/7].toString());
             lblType.setFont(new Font("Javanese Text", Font.PLAIN, 17));
-	    lblType.setHorizontalAlignment(SwingConstants.CENTER);
+            lblType.setHorizontalAlignment(SwingConstants.CENTER);
             mealPanel.add(lblType, BorderLayout.NORTH);
 
             JPanel panel_2 = new JPanel();
