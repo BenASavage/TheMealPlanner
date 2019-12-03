@@ -82,6 +82,7 @@ public class MealPlannerGui {
         panel.setLayout(new GridLayout(3,3));
 
         JLabel lblWelcome = new JLabel("Welcome to The Meal Planner! Enter your name:");
+	lblWelcome.setFont(new Font("Javanese Text", Font.PLAIN, 13));
         lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(new JLabel(""));
         panel.add(lblWelcome);
@@ -89,6 +90,7 @@ public class MealPlannerGui {
         panel.add(new JLabel(""));
 
         JTextField userName = new JTextField(16);
+	userName.setFont(new Font("Javanese Text", Font.PLAIN, 17));    
         userName.setHorizontalAlignment(SwingConstants.CENTER);
         userName.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -267,6 +269,7 @@ public class MealPlannerGui {
                 mealPlanGUI(el);
             });
             planButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    planButton.setFont(new Font("Javanese Text", Font.PLAIN, 17));
             planButton.setMaximumSize(new Dimension(300, 50));
             planButton.setMinimumSize(new Dimension(300, 50));
             planButton.setPreferredSize(new Dimension(300, 50));
@@ -298,6 +301,7 @@ public class MealPlannerGui {
             JPanel dayPanel = new JPanel();
             panel.add(dayPanel);
             dayPanel.setLayout(new BorderLayout(0, 0));
+	    dayPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
             dayPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             JLabel lblDay = new JLabel(el.getName());
