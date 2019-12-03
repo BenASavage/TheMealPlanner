@@ -75,7 +75,7 @@ public class MealPlannerGui {
         panel.setLayout(new GridLayout(2,3));
 
         JLabel lblWelcome = new JLabel("Welcome to The Meal Planner! Enter your name:");
-	lblWelcome.setFont(new Font("Javanese Text", Font.PLAIN, 13));
+	    lblWelcome.setFont(new Font("Javanese Text", Font.PLAIN, 13));
         lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(new JLabel(""));
         panel.add(lblWelcome);
@@ -83,7 +83,7 @@ public class MealPlannerGui {
         panel.add(new JLabel(""));
 
         JTextField userName = new JTextField(16);
-	userName.setFont(new Font("Javanese Text", Font.PLAIN, 17));    
+	    userName.setFont(new Font("Javanese Text", Font.PLAIN, 17));    
         userName.setHorizontalAlignment(SwingConstants.CENTER);
         userName.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -385,6 +385,14 @@ public class MealPlannerGui {
         JButton Resetbtn = new JButton("Reset this Plan");
         Resetbtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
         Resetbtn.setFocusPainted(false);
+        Resetbtn.addActionListener(e -> {
+            for (Day el : plan.getWeekPlan()) {
+                el.getMeals().clear();
+                contentPane.removeAll();
+                contentPane.revalidate();
+                mealPlanGUI(plan);
+            }
+        });
         btnpanel.add(Resetbtn);
     }
 
@@ -397,7 +405,8 @@ public class MealPlannerGui {
         JPanel panel = new JPanel();
         contentPane.add(panel, BorderLayout.SOUTH);
 
-        ArrayList<Meal> newSet = thisDay.getMeals();
+        ArrayList<Meal> newSet = new ArrayList<>(35);
+        newSet.addAll(thisDay.getMeals());
 
         JButton Setbtn = new JButton("Set Plan");
         Setbtn.setFont(new Font("Javanese Text", Font.BOLD, 17));
@@ -421,6 +430,7 @@ public class MealPlannerGui {
                     contentPane.removeAll();
                     contentPane.revalidate();
                     thisDay.getMeals().clear();
+                    newSet.clear();
                     mealPlanGUI(plan);
                 }
             }
@@ -472,7 +482,7 @@ public class MealPlannerGui {
                 lblcheck.setAlignmentX(Component.LEFT_ALIGNMENT);
 
                 JCheckBox checkBox_1 = new JCheckBox();
-                checkBox_1.setSelected(newSet.contains(planner.getMealList().get(i + j)));
+                checkBox_1.setSelected(thisDay.getMeals().contains(planner.getMealList().get(i + j)));
                 checkBox_1.setAlignmentX(Component.LEFT_ALIGNMENT);
                 int finalI = i;
                 int finalJ = j;
@@ -480,7 +490,9 @@ public class MealPlannerGui {
                     if (e.getStateChange() == ItemEvent.DESELECTED) {
                         newSet.remove(planner.getMealList().get(finalI + finalJ));
                     } else if (e.getStateChange() == ItemEvent.SELECTED) {
-                        newSet.add(planner.getMealList().get(finalI + finalJ));
+                        if (!newSet.contains(planner.getMealList().get(finalI + finalJ))) {
+                            newSet.add(planner.getMealList().get(finalI + finalJ));
+                        }
                     }
                 });
                 displayPanel.add(checkBox_1);
@@ -490,5 +502,16 @@ public class MealPlannerGui {
                 panel_2.add(Box.createVerticalStrut(25));
             }
         }
+    }
+
+    private boolean isIn(ArrayList<Meal> container, Meal object) {
+        boolean in = false;
+        for (Meal el : container) {
+            if (el.equals(object)) {
+                in = true;
+                break;
+            }
+        }
+        return in;
     }
 }

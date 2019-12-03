@@ -16,9 +16,7 @@ public class MealPlan implements Serializable {
      * An ArrayList of Days with a initial capacity of 7. A week plan, in relation to a meal plan, is used as the
      * container for the days in the meal plan, each day also being a list of meals.
      * The capacity of a week plan should remain at 7 but isn't declared final because of the changing contents.
-     * An ArrayList is used instead of a linked list because it contains mutable objects. Also used instead of
-     * Days.values() to match its containers and contents, both being ArrayLists, though week plan is initialized to
-     * the values of Days.values() in the constructor.
+     * An ArrayList is used instead of a linked list because it contains mutable objects.
      * @see Day
      * @see MealPlan
      */
