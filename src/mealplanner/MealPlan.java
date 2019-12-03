@@ -1,10 +1,3 @@
-/*
-    Assignment:  MealPlanner
-	Program:     MealPlan
-	Programmer:  Ben Savage
-	Created:     11/30/2019
-*/
-
 package mealplanner;
 
 import java.io.Serializable;

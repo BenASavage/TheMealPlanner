@@ -1,14 +1,6 @@
-/*
-    Assignment:  Meal Planner
-	Program:     MealPlannerApp
-	Programmer:  Ben Savage
-	Created:     11/15/2019
-*/
-
 package mealplanner;
 
 import javax.swing.*;
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;

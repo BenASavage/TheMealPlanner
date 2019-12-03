@@ -1,10 +1,3 @@
-/*
-    Assignment:  Meal Planner
-	Program:     MealPlannerGui
-	Programmer:  Ben Savage
-	Created:     11/15/2019
-*/
-
 package mealplanner;
 
 import javax.swing.*;
