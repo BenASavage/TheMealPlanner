@@ -72,7 +72,7 @@ public class MealPlannerGui {
 
         JPanel panel = new JPanel();
         frame.getContentPane().add(panel, BorderLayout.SOUTH);
-        panel.setLayout(new GridLayout(3,3));
+        panel.setLayout(new GridLayout(2,3));
 
         JLabel lblWelcome = new JLabel("Welcome to The Meal Planner! Enter your name:");
 	lblWelcome.setFont(new Font("Javanese Text", Font.PLAIN, 13));
@@ -125,9 +125,6 @@ public class MealPlannerGui {
             }
         });
         panel.add(userName);
-        panel.add(new JLabel(""));
-        panel.add(new JLabel(""));
-        panel.add(new JLabel(""));
         panel.add(new JLabel(""));
     }
 
@@ -254,7 +251,7 @@ public class MealPlannerGui {
 
         planlistpanel.removeAll();
         for (MealPlan el : planner.getCurrentPlans()) {
-            JButton planButton = new JButton(el.getPlanName() + " Calories: " + el.getTotalCalories());
+            JButton planButton = new JButton(el.getPlanName());
             planButton.setFocusPainted(false);
             planButton.addActionListener(e -> {
                 contentPane.removeAll();
@@ -262,10 +259,11 @@ public class MealPlannerGui {
                 mealPlanGUI(el);
             });
             planButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-	    planButton.setFont(new Font("Javanese Text", Font.PLAIN, 17));
+	        planButton.setFont(new Font("Javanese Text", Font.PLAIN, 17));
             planButton.setMaximumSize(new Dimension(300, 50));
             planButton.setMinimumSize(new Dimension(300, 50));
             planButton.setPreferredSize(new Dimension(300, 50));
+            planButton.setToolTipText("Total Calories in this Plan: " + el.getTotalCalories());
             planlistpanel.add(planButton, -1);
             planlistpanel.add(Box.createVerticalStrut(10));
         }
@@ -288,18 +286,20 @@ public class MealPlannerGui {
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         contentPane.add(scrollPane, BorderLayout.CENTER);
-        panel.setLayout(new GridLayout(3, 2, 0, 0));
+        panel.setLayout(new GridLayout(4, 2));
 
         for (Day el : plan.getWeekPlan()) {
             JPanel dayPanel = new JPanel();
             panel.add(dayPanel);
             dayPanel.setLayout(new BorderLayout(0, 0));
-	    dayPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+	        dayPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
             dayPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             JLabel lblDay = new JLabel(el.getName());
             lblDay.setFont(new Font("Javanese Text", Font.PLAIN, 17));
             lblDay.setHorizontalAlignment(SwingConstants.CENTER);
+            lblDay.setHorizontalTextPosition(SwingConstants.CENTER);
+            lblDay.setToolTipText("Calories in this Day: " + el.getTotalCalories());
             dayPanel.add(lblDay, BorderLayout.NORTH);
 
             JPanel mealPanel = new JPanel();
@@ -310,8 +310,9 @@ public class MealPlannerGui {
                 JButton recipebtn = new JButton();
                 recipebtn.setAlignmentX(Component.CENTER_ALIGNMENT);
                 recipebtn.setFocusPainted(false);
-                recipebtn.setText(meal.getName() + " Calories: " + meal.getCalories() + " " + meal.getFoodType());
+                recipebtn.setText(meal.getName());
                 recipebtn.setIcon(meal.getSmallPicture());
+                recipebtn.setToolTipText("Calories: " + meal.getCalories() + "\\n" + meal.getFoodType());
                 recipebtn.setPreferredSize(new Dimension(100,100));
                 recipebtn.addActionListener(e -> JOptionPane.showMessageDialog(frame, meal.getRecipe()));
                 mealPanel.add(recipebtn);
@@ -410,9 +411,15 @@ public class MealPlannerGui {
         Resetbtn.setFocusPainted(false);
         panel.add(Resetbtn);
         Resetbtn.addActionListener(e -> {
-            contentPane.removeAll();
-            contentPane.revalidate();
-            mealListGUI(plan, thisDay);
+            if (!thisDay.getMeals().isEmpty()) {
+                if (JOptionPane.showConfirmDialog(frame, "Are you sure you want to reset this Day?")
+                        == JOptionPane.YES_OPTION) {
+                    contentPane.removeAll();
+                    contentPane.revalidate();
+                    thisDay.getMeals().clear();
+                    mealPlanGUI(plan);
+                }
+            }
         });
 
         JButton Cancelbtn = new JButton("Cancel");
@@ -462,13 +469,12 @@ public class MealPlannerGui {
                 JCheckBox checkBox_1 = new JCheckBox();
                 checkBox_1.setSelected(newSet.contains(planner.getMealList().get(i + j)));
                 checkBox_1.setAlignmentX(Component.LEFT_ALIGNMENT);
-                int finalJ = j;
                 int finalI = i;
+                int finalJ = j;
                 checkBox_1.addItemListener(e -> {
                     if (e.getStateChange() == ItemEvent.DESELECTED) {
                         newSet.remove(planner.getMealList().get(finalI + finalJ));
-                    }
-                    else if (e.getStateChange() == ItemEvent.SELECTED) {
+                    } else if (e.getStateChange() == ItemEvent.SELECTED) {
                         newSet.add(planner.getMealList().get(finalI + finalJ));
                     }
                 });
