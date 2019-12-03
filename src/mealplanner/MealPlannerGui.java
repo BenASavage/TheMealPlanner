@@ -312,7 +312,7 @@ public class MealPlannerGui {
                 recipebtn.setFocusPainted(false);
                 recipebtn.setText(meal.getName());
                 recipebtn.setIcon(meal.getSmallPicture());
-                recipebtn.setToolTipText("Calories: " + meal.getCalories() + "\\n" + meal.getFoodType());
+                recipebtn.setToolTipText("<HTML>"+"Calories: " + meal.getCalories() + "<BR>" + meal.getFoodType()+"</HTML>");
                 recipebtn.setPreferredSize(new Dimension(100,100));
                 recipebtn.addActionListener(e -> JOptionPane.showMessageDialog(frame, meal.getRecipe()));
                 mealPanel.add(recipebtn);
@@ -452,6 +452,7 @@ public class MealPlannerGui {
 
             JLabel lblType = new JLabel(Meal.BLD.values()[i/7].toString());
             lblType.setFont(new Font("Javanese Text", Font.PLAIN, 17));
+	    lblType.setHorizontalAlignment(SwingConstants.CENTER);
             mealPanel.add(lblType, BorderLayout.NORTH);
 
             JPanel panel_2 = new JPanel();
