@@ -386,11 +386,14 @@ public class MealPlannerGui {
         Resetbtn.setFont(new Font("Javanese Text", Font.PLAIN, 17));
         Resetbtn.setFocusPainted(false);
         Resetbtn.addActionListener(e -> {
-            for (Day el : plan.getWeekPlan()) {
-                el.getMeals().clear();
-                contentPane.removeAll();
-                contentPane.revalidate();
-                mealPlanGUI(plan);
+            if (JOptionPane.showConfirmDialog(frame, "Are you sure you want to reset this Plan?")
+                    == JOptionPane.YES_OPTION) {
+                for (Day el : plan.getWeekPlan()) {
+                    el.getMeals().clear();
+                    contentPane.removeAll();
+                    contentPane.revalidate();
+                    mealPlanGUI(plan);
+                }
             }
         });
         btnpanel.add(Resetbtn);
@@ -405,8 +408,7 @@ public class MealPlannerGui {
         JPanel panel = new JPanel();
         contentPane.add(panel, BorderLayout.SOUTH);
 
-        ArrayList<Meal> newSet = new ArrayList<>(35);
-        newSet.addAll(thisDay.getMeals());
+        ArrayList<Meal> newSet = new ArrayList<>(thisDay.getMeals());
 
         JButton Setbtn = new JButton("Set Plan");
         Setbtn.setFont(new Font("Javanese Text", Font.BOLD, 17));
@@ -482,15 +484,15 @@ public class MealPlannerGui {
                 lblcheck.setAlignmentX(Component.LEFT_ALIGNMENT);
 
                 JCheckBox checkBox_1 = new JCheckBox();
-                checkBox_1.setSelected(thisDay.getMeals().contains(planner.getMealList().get(i + j)));
+                checkBox_1.setSelected(isIn(newSet, planner.getMealList().get(i + j)));
                 checkBox_1.setAlignmentX(Component.LEFT_ALIGNMENT);
                 int finalI = i;
                 int finalJ = j;
                 checkBox_1.addItemListener(e -> {
                     if (e.getStateChange() == ItemEvent.DESELECTED) {
-                        newSet.remove(planner.getMealList().get(finalI + finalJ));
+                        removeFrom(newSet, planner.getMealList().get(finalI + finalJ));
                     } else if (e.getStateChange() == ItemEvent.SELECTED) {
-                        if (!newSet.contains(planner.getMealList().get(finalI + finalJ))) {
+                        if (!isIn(newSet, planner.getMealList().get(finalI + finalJ))) {
                             newSet.add(planner.getMealList().get(finalI + finalJ));
                         }
                     }
@@ -507,11 +509,22 @@ public class MealPlannerGui {
     private boolean isIn(ArrayList<Meal> container, Meal object) {
         boolean in = false;
         for (Meal el : container) {
-            if (el.equals(object)) {
+            if (el.getName().equals(object.getName())) {
                 in = true;
                 break;
             }
         }
         return in;
+    }
+
+    private void removeFrom(ArrayList<Meal> container, Meal object) {
+        if (isIn(container, object)) {
+            for (Meal el : container) {
+                if (el.getName().equals(object.getName())) {
+                    container.remove(el);
+                    break;
+                }
+            }
+        }
     }
 }
