@@ -311,9 +311,9 @@ public class MealPlannerGui {
                 recipebtn.setAlignmentX(Component.CENTER_ALIGNMENT);
                 recipebtn.setFocusPainted(false);
                 recipebtn.setFont(new Font("Javanese Text", Font.PLAIN, 15));
-                recipebtn.setMaximumSize(new Dimension(300, 60));
-                recipebtn.setMinimumSize(new Dimension(300, 60));
-                recipebtn.setPreferredSize(new Dimension(300, 60));
+                recipebtn.setMaximumSize(new Dimension(350, 60));
+                recipebtn.setMinimumSize(new Dimension(350, 60));
+                recipebtn.setPreferredSize(new Dimension(350, 60));
                 recipebtn.setText(meal.getName());
                 recipebtn.setIcon(meal.getSmallPicture());
                 recipebtn.setToolTipText("<HTML>"+"Calories: " + meal.getCalories() + "<BR>" + meal.getFoodType()+"</HTML>");
