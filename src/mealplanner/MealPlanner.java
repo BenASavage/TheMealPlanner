@@ -58,7 +58,7 @@ class MealPlanner implements Serializable {
                     String nextLine = scan.nextLine();
                     String[] lineValues = nextLine.split(",");
                     meals.add(new Meal(lineValues[0], new ImageIcon(this.getClass().getResource("/BLD/" + lineValues[2] + "/"
-                            + lineValues[0] + (lineValues[2].equals("Dinner") ? ".jpeg" : ".jpg"))),
+                            + lineValues[0] + ((lineValues[2].equals("Dinner") || lineValues[2].equals("Snack")) ? ".jpeg" : ".jpg"))),
                             Integer.parseInt(lineValues[1]), Meal.BLD.valueOf(lineValues[2])));
                 } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
                     System.err.println("There was a problem creating the meal list");
