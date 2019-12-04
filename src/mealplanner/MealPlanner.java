@@ -36,7 +36,7 @@ class MealPlanner implements Serializable {
     /**
      * Constructor for MealPlanner. mealList is created using the createMealList method. name is initialized to
      * specified name. currentPlans is initialized to a default ArrayList.
-     * @param name
+     * @param name name of the account
      */
     public MealPlanner(String name) {
         this.mealList = createMealList();
