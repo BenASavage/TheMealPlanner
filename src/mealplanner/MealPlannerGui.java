@@ -478,10 +478,15 @@ public class MealPlannerGui {
 
             for (int j = 0; j < 7; j++) {
                 JPanel displayPanel = new JPanel();
-                JLabel lblcheck = new JLabel(planner.getMealList().get(i + j).getName());
+                JButton lblcheck = new JButton(planner.getMealList().get(i + j).getName());
                 lblcheck.setIcon(planner.getMealList().get(i + j).getPicture());
+                lblcheck.setFocusPainted(false);
+                lblcheck.setContentAreaFilled(false);
+                lblcheck.setBorderPainted(false);
+                lblcheck.setToolTipText("Calories: " + planner.getMealList().get(i + j).getCalories());
                 lblcheck.setHorizontalAlignment(SwingConstants.LEFT);
                 lblcheck.setAlignmentX(Component.LEFT_ALIGNMENT);
+
 
                 JCheckBox checkBox_1 = new JCheckBox();
                 checkBox_1.setSelected(isIn(newSet, planner.getMealList().get(i + j)));
@@ -497,6 +502,10 @@ public class MealPlannerGui {
                         }
                     }
                 });
+
+                lblcheck.addActionListener(e -> JOptionPane.showMessageDialog(frame,
+                        planner.getMealList().get(finalI + finalJ).getRecipe()));
+
                 displayPanel.add(checkBox_1);
                 displayPanel.add(lblcheck);
                 displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.Y_AXIS));
